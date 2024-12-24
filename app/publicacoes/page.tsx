@@ -1,9 +1,66 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { FileText, Download, Calendar, User } from "lucide-react"
 import { useSearchParams } from "next/navigation"
-import { publicationCategories, publications, Publication } from '@/lib/publicationsData' // Importing from lib
+
+type Publication = {
+  id: number
+  title: string
+  category: string
+  year: number
+  semester: "First" | "Second"
+  slug: string
+  autor?: string
+  resumo?: string
+  conteudo?: string
+}
+
+const publicationCategories = [
+  "BOLETIM ECONÔMICO",
+  "ESTUDOS ESPECIAIS",
+  "NOTAS TÉCNICAS",
+  "APRESENTAÇÕES",
+  "CARNAVAL DE DADOS",
+  "RÉVEILLON EM DADOS",
+  "WEB SUMMIT RIO",
+  "ECONOMIA VERDE",
+  "CRYPTO RIO",
+  "DESENVOLVIMENTO ECONÔMICO DO RIO",
+  "AEROPORTOS",
+  "TURISMO",
+  "ECONOMIA DA MODA",
+  "DEMAIS PUBLICAÇÕES"
+]
+
+const publications: Publication[] = [
+  {
+    id: 1,
+    title: "Perspectiva Econômica 2023",
+    category: "BOLETIM ECONÔMICO",
+    year: 2023,
+    semester: "First",
+    slug: "perspectiva-economica-2023",
+    autor: "Dra. Ana Silva",
+    resumo: "Análise detalhada do cenário econômico atual.",
+    conteudo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  },
+  {
+    id: 2,
+    title: "Estudo Especial: Economia Verde",
+    category: "ESTUDOS ESPECIAIS",
+    year: 2023,
+    semester: "First",
+    slug: "estudo-especial-economia-verde"
+  },
+  {
+    id: 3,
+    title: "Nota Técnica: Análise da Inflação",
+    category: "NOTAS TÉCNICAS",
+    year: 2023,
+    semester: "Second",
+    slug: "nota-tecnica-analise-inflacao"
+  }
+]
 
 const years = [2023, 2022, 2021, 2020]
 const semesters = ["Primeiro Semestre", "Segundo Semestre"]
