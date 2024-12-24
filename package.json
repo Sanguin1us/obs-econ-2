@@ -7,19 +7,19 @@
         "start": "next start"
     },
     "dependencies": {
-        "lucide-react": "^0.299.0",
+        "lucide-react": "^0.469.0",
         "next": "15.1.2",
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "recharts": "^2.5.0",
-        "typescript": "^5.1.6"
+        "react": "19.0.0",
+        "react-dom": "19.0.0",
+        "recharts": "^2.15.0",
+        "typescript": "^5.7.2"
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.15",
-        "@types/node": "^20.4.2",
-        "@types/react": "^18.3.12",
+        "@types/node": "^22.10.2",
+        "@types/react": "^19.0.2",
         "autoprefixer": "^10.4.20",
-        "eslint": "^8.50.0",
+        "eslint": "^9.17.0",
         "eslint-config-next": "15.1.2",
         "postcss": "^8.4.49",
         "tailwindcss": "^3.4.17"
