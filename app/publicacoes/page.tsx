@@ -1,77 +1,72 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { FileText, Download, Calendar, User } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 
-type Publication = {
-  id: number
-  title: string
-  category: string
-  year: number
-  semester: "First" | "Second"
-  slug: string
-  autor?: string
-  resumo?: string
-  conteudo?: string
-}
-
-const publicationCategories = [
-  "BOLETIM ECONÔMICO",
-  "ESTUDOS ESPECIAIS",
-  "NOTAS TÉCNICAS",
-  "APRESENTAÇÕES",
-  "CARNAVAL DE DADOS",
-  "RÉVEILLON EM DADOS",
-  "WEB SUMMIT RIO",
-  "ECONOMIA VERDE",
-  "CRYPTO RIO",
-  "DESENVOLVIMENTO ECONÔMICO DO RIO",
-  "AEROPORTOS",
-  "TURISMO",
-  "ECONOMIA DA MODA",
-  "DEMAIS PUBLICAÇÕES"
-]
-
-const publications: Publication[] = [
-  {
-    id: 1,
-    title: "Perspectiva Econômica 2023",
-    category: "BOLETIM ECONÔMICO",
-    year: 2023,
-    semester: "First",
-    slug: "perspectiva-economica-2023",
-    autor: "Dra. Ana Silva",
-    resumo: "Análise detalhada do cenário econômico atual.",
-    conteudo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-  },
-  {
-    id: 2,
-    title: "Estudo Especial: Economia Verde",
-    category: "ESTUDOS ESPECIAIS",
-    year: 2023,
-    semester: "First",
-    slug: "estudo-especial-economia-verde"
-  },
-  {
-    id: 3,
-    title: "Nota Técnica: Análise da Inflação",
-    category: "NOTAS TÉCNICAS",
-    year: 2023,
-    semester: "Second",
-    slug: "nota-tecnica-analise-inflacao"
+function PublicacoesInner() {
+  type Publication = {
+    id: number
+    title: string
+    category: string
+    year: number
+    semester: "First" | "Second"
+    slug: string
+    autor?: string
+    resumo?: string
+    conteudo?: string
   }
-]
-
-const years = [2023, 2022, 2021, 2020]
-const semesters = ["Primeiro Semestre", "Segundo Semestre"]
-
-export default function Publicacoes() {
+  const publicationCategories = [
+    "BOLETIM ECONÔMICO",
+    "ESTUDOS ESPECIAIS",
+    "NOTAS TÉCNICAS",
+    "APRESENTAÇÕES",
+    "CARNAVAL DE DADOS",
+    "RÉVEILLON EM DADOS",
+    "WEB SUMMIT RIO",
+    "ECONOMIA VERDE",
+    "CRYPTO RIO",
+    "DESENVOLVIMENTO ECONÔMICO DO RIO",
+    "AEROPORTOS",
+    "TURISMO",
+    "ECONOMIA DA MODA",
+    "DEMAIS PUBLICAÇÕES"
+  ]
+  const publications: Publication[] = [
+    {
+      id: 1,
+      title: "Perspectiva Econômica 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "First",
+      slug: "perspectiva-economica-2023",
+      autor: "Dra. Ana Silva",
+      resumo: "Análise detalhada do cenário econômico atual.",
+      conteudo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    {
+      id: 2,
+      title: "Estudo Especial: Economia Verde",
+      category: "ESTUDOS ESPECIAIS",
+      year: 2023,
+      semester: "First",
+      slug: "estudo-especial-economia-verde"
+    },
+    {
+      id: 3,
+      title: "Nota Técnica: Análise da Inflação",
+      category: "NOTAS TÉCNICAS",
+      year: 2023,
+      semester: "Second",
+      slug: "nota-tecnica-analise-inflacao"
+    }
+  ]
+  const years = [2023, 2022, 2021, 2020]
+  const semesters = ["Primeiro Semestre", "Segundo Semestre"]
   const searchParams = useSearchParams()
   const slug = searchParams.get("slug")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null)
-
   useEffect(() => {
     if (slug) {
       setSelectedCategory(null)
@@ -79,7 +74,6 @@ export default function Publicacoes() {
       setSelectedSemester(null)
     }
   }, [slug])
-
   if (slug) {
     const pub = publications.find(item => item.slug === slug)
     if (!pub) {
@@ -127,14 +121,12 @@ export default function Publicacoes() {
       </div>
     )
   }
-
   const filteredPublications = publications.filter(
     p =>
       (!selectedCategory || p.category === selectedCategory) &&
       (!selectedYear || p.year === selectedYear) &&
       (!selectedSemester || p.semester === (selectedSemester.includes("Primeiro") ? "First" : "Second"))
   )
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="border-b pb-8 mb-8">
@@ -241,5 +233,13 @@ export default function Publicacoes() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function PublicacoesPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <PublicacoesInner />
+    </Suspense>
   )
 }
