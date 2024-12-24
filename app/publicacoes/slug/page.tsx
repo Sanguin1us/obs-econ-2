@@ -2,14 +2,14 @@ import { notFound } from 'next/navigation'
 import { FileText, Calendar, User } from 'lucide-react'
 
 type Publication = {
-  id: number;
-  titulo: string;
-  ano: number;
-  semestre: string;
-  slug: string;
-  autor: string;
-  resumo: string;
-  conteudo: string;
+  id: number
+  titulo: string
+  ano: number
+  semestre: string
+  slug: string
+  autor: string
+  resumo: string
+  conteudo: string
 }
 
 const publicacoes: Publication[] = [
@@ -25,26 +25,25 @@ const publicacoes: Publication[] = [
   }
 ]
 
-type Params = {
-  slug: string;
-}
-
-type Props = {
-  params: Params;
-}
-
-export default function PublicacaoPage({ params }: Props) {
+export default function PublicacaoPage({
+  params
+}: {
+  params: { slug: string }
+}) {
   const publicacao = publicacoes.find(p => p.slug === params.slug)
   if (!publicacao) {
     notFound()
   }
+
   return (
     <div className="container mx-auto px-4 py-16">
       <h1 className="text-4xl font-bold mb-8">{publicacao.titulo}</h1>
       <div className="flex flex-wrap gap-6 mb-8 text-gray-600">
         <div className="flex items-center">
           <Calendar className="mr-2" size={20} />
-          <span>{publicacao.ano} - {publicacao.semestre}</span>
+          <span>
+            {publicacao.ano} - {publicacao.semestre}
+          </span>
         </div>
         <div className="flex items-center">
           <User className="mr-2" size={20} />
