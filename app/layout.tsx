@@ -10,6 +10,13 @@ export const metadata = {
   description: 'Institutional platform for sharing economic data and publications',
 }
 
+// Add prefetch configuration
+export const dynamicParams = true
+export const revalidate = false
+export const fetchCache = 'auto'
+export const runtime = 'nodejs'
+export const preferredRegion = 'auto'
+
 export default function RootLayout({
   children,
 }: {
@@ -25,4 +32,3 @@ export default function RootLayout({
     </html>
   )
 }
-

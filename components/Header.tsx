@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+import PreloadLink from './PreloadLink'
 
 const navItems = [
   { name: 'Início', href: '/' },
@@ -18,13 +18,15 @@ export default function Header() {
   return (
     <header className="bg-blue-900 text-white">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold">Observatório Econômico</Link>
+        <PreloadLink href="/" className="text-2xl font-bold">
+          Observatório Econômico
+        </PreloadLink>
         <nav className="hidden md:flex space-x-4">
           {navItems.map((item) => (
             <div key={item.name} className="relative group">
-              <Link href={item.href} className="hover:text-blue-200 transition-colors">
+              <PreloadLink href={item.href} className="hover:text-blue-200 transition-colors">
                 {item.name}
-              </Link>
+              </PreloadLink>
             </div>
           ))}
         </nav>
@@ -37,13 +39,13 @@ export default function Header() {
           <nav className="px-4 pt-2 pb-4 space-y-2">
             {navItems.map((item) => (
               <div key={item.name}>
-                <Link
+                <PreloadLink
                   href={item.href}
                   className="block py-2 hover:text-blue-200 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
-                </Link>
+                </PreloadLink>
               </div>
             ))}
           </nav>
@@ -52,4 +54,3 @@ export default function Header() {
     </header>
   )
 }
-
