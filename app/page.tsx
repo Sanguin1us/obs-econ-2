@@ -32,8 +32,8 @@ export default function Home() {
         <Image
           src="/placeholder.svg"
           alt="Visualização de dados econômicos"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: 'cover' }}
           className="z-0"
           priority
         />
@@ -67,7 +67,7 @@ export default function Home() {
 
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold mb-12 text-center">Indicadores de Atividade Econômica</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid gap-8">
           {economicIndicators.map((indicator) => (
             <EconomicIndicatorGraph key={indicator.name} indicator={indicator} />
           ))}
@@ -76,4 +76,3 @@ export default function Home() {
     </>
   )
 }
-

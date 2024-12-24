@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { subdepartments, leadership } from '@/lib/teamData'
+import { subdepartments, leadership, Subdepartment } from '@/lib/teamData'
 
 export default function Equipe() {
-  const [selectedSubdepartment, setSelectedSubdepartment] = useState(null)
+  const [selectedSubdepartment, setSelectedSubdepartment] = useState<Subdepartment | null>(null)
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -64,8 +64,8 @@ export default function Equipe() {
                     <Image
                       src={member.photoUrl}
                       alt={member.name}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      style={{ objectFit: 'cover' }}
                     />
                   </div>
                   <div>
@@ -87,4 +87,3 @@ export default function Equipe() {
     </div>
   )
 }
-

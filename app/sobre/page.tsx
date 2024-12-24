@@ -22,8 +22,8 @@ export default function Sobre() {
           <Image
             src="/placeholder.svg"
             alt="Equipe do Observatório Econômico"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
           />
         </div>
       </div>
@@ -67,4 +67,3 @@ export default function Sobre() {
     </div>
   )
 }
-
