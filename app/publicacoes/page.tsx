@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from 'react'
 import { FileText, Download } from 'lucide-react'
 import { publicationCategories, publications } from '@/lib/publicationsData'
@@ -12,7 +11,6 @@ export default function Publicacoes() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null)
-
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get('categoria')
 
@@ -23,10 +21,10 @@ export default function Publicacoes() {
   }, [categoryParam])
 
   const filteredPublications = publications.filter(
-    (pub) => 
-      (!selectedCategory || pub.category === selectedCategory) &&
-      (!selectedYear || pub.year === selectedYear) &&
-      (!selectedSemester || pub.semester === selectedSemester?.split(' ')[0])
+    p =>
+      (!selectedCategory || p.category === selectedCategory) &&
+      (!selectedYear || p.year === selectedYear) &&
+      (!selectedSemester || p.semester === (selectedSemester.includes('Primeiro') ? 'First' : 'Second'))
   )
 
   return (
@@ -34,10 +32,9 @@ export default function Publicacoes() {
       <div className="border-b pb-8 mb-8">
         <h1 className="text-3xl font-semibold text-gray-900">Publicações</h1>
       </div>
-
       <div className="flex flex-col space-y-8">
         <div className="inline-flex flex-wrap gap-2">
-          {publicationCategories.map((category) => (
+          {publicationCategories.map(category => (
             <button
               key={category}
               onClick={() => {
@@ -59,12 +56,11 @@ export default function Publicacoes() {
             </button>
           ))}
         </div>
-
         {selectedCategory && (
           <div className="flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="h-8 w-px bg-gray-200" />
-              {years.map((year) => (
+              {years.map(year => (
                 <button
                   key={year}
                   onClick={() => setSelectedYear(selectedYear === year ? null : year)}
@@ -78,14 +74,15 @@ export default function Publicacoes() {
                 </button>
               ))}
             </div>
-
             {selectedYear && (
               <div className="flex items-center gap-2">
                 <div className="h-8 w-px bg-gray-200" />
-                {semesters.map((semester) => (
+                {semesters.map(semester => (
                   <button
                     key={semester}
-                    onClick={() => setSelectedSemester(selectedSemester === semester ? null : semester)}
+                    onClick={() =>
+                      setSelectedSemester(selectedSemester === semester ? null : semester)
+                    }
                     className={`px-3 py-1 text-sm rounded-full transition-colors ${
                       selectedSemester === semester
                         ? 'bg-gray-900 text-white'
@@ -99,11 +96,10 @@ export default function Publicacoes() {
             )}
           </div>
         )}
-
         <div className="grid gap-3">
-          {filteredPublications.map((publication) => (
+          {filteredPublications.map(pub => (
             <div
-              key={publication.id}
+              key={pub.id}
               className="group flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-4">
@@ -111,9 +107,9 @@ export default function Publicacoes() {
                   <FileText className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">{publication.title}</h3>
+                  <h3 className="font-medium text-gray-900">{pub.title}</h3>
                   <p className="text-sm text-gray-500">
-                    {publication.year} • {publication.semester === 'First' ? 'Primeiro' : 'Segundo'} Semestre
+                    {pub.year} • {pub.semester === 'First' ? 'Primeiro' : 'Segundo'} Semestre
                   </p>
                 </div>
               </div>
@@ -123,7 +119,6 @@ export default function Publicacoes() {
               </button>
             </div>
           ))}
-
           {filteredPublications.length === 0 && (
             <div className="text-center py-12 text-gray-500">
               Nenhuma publicação encontrada para os filtros selecionados
@@ -134,4 +129,3 @@ export default function Publicacoes() {
     </div>
   )
 }
-
