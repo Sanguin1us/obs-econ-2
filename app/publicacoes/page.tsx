@@ -2,19 +2,22 @@
 
 import { useState, useEffect } from 'react'
 import { FileText, Download } from 'lucide-react'
-import { publicationCategories, publications } from '@/lib/publicationsData'
+import { publicationCategories, publications, Publication } from '@/lib/publicationsData'
 import { useSearchParams } from 'next/navigation'
 
-const years = [2023, 2022, 2021, 2020]
-const semesters = ['Primeiro Semestre', 'Segundo Semestre']
+const years = [2023, 2022, 2021, 2020] as const
+const semesters = ['Primeiro Semestre', 'Segundo Semestre'] as const
+
+type Year = typeof years[number]
+type Semester = typeof semesters[number]
 
 export default function Publicacoes() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedYear, setSelectedYear] = useState<number | null>(null)
-  const [selectedSemester, setSelectedSemester] = useState<string | null>(null)
+  const [selectedYear, setSelectedYear] = useState<Year | null>(null)
+  const [selectedSemester, setSelectedSemester] = useState<Semester | null>(null)
 
   const searchParams = useSearchParams()
-  const categoryParam = searchParams.get('categoria')
+  const categoryParam = searchParams?.get('categoria')
 
   useEffect(() => {
     if (categoryParam && publicationCategories.includes(categoryParam)) {
@@ -23,10 +26,10 @@ export default function Publicacoes() {
   }, [categoryParam])
 
   const filteredPublications = publications.filter(
-    (pub) => 
+    (pub: Publication) => 
       (!selectedCategory || pub.category === selectedCategory) &&
       (!selectedYear || pub.year === selectedYear) &&
-      (!selectedSemester || pub.semester === selectedSemester?.split(' ')[0])
+      (!selectedSemester || pub.semester === (selectedSemester === 'Primeiro Semestre' ? 'First' : 'Second'))
   )
 
   return (
@@ -134,4 +137,3 @@ export default function Publicacoes() {
     </div>
   )
 }
-

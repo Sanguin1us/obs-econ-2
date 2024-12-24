@@ -5,7 +5,7 @@ export type EconomicIndicator = {
 
 export const economicIndicators: EconomicIndicator[] = [
   {
-    name: "GDP Growth",
+    name: "Crescimento do PIB",
     data: [
       { month: "Jan", value: 2.1 },
       { month: "Feb", value: 2.3 },
@@ -22,7 +22,7 @@ export const economicIndicators: EconomicIndicator[] = [
     ],
   },
   {
-    name: "Inflation",
+    name: "Inflação",
     data: [
       { month: "Jan", value: 1.5 },
       { month: "Feb", value: 1.6 },
@@ -39,7 +39,7 @@ export const economicIndicators: EconomicIndicator[] = [
     ],
   },
   {
-    name: "Unemployment",
+    name: "Desemprego",
     data: [
       { month: "Jan", value: 14.5 },
       { month: "Feb", value: 14.3 },
