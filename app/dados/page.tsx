@@ -32,8 +32,12 @@ const datasets = {
   ]
 }
 
+// Define a type that represents the keys of the datasets object
+type DatasetCategory = keyof typeof datasets
+
 export default function DadosPage() {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  // Update the state to use the DatasetCategory type
+  const [activeCategory, setActiveCategory] = useState<DatasetCategory | null>(null)
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -43,7 +47,7 @@ export default function DadosPage() {
         {Object.keys(datasets).map((category) => (
           <button
             key={category}
-            onClick={() => setActiveCategory(activeCategory === category ? null : category)}
+            onClick={() => setActiveCategory(activeCategory === category ? null : category as DatasetCategory)}
             className={`p-4 rounded-lg text-center transition-colors ${
               activeCategory === category
                 ? 'bg-blue-900 text-white'
@@ -75,4 +79,3 @@ export default function DadosPage() {
     </div>
   )
 }
-
