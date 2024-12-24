@@ -1,7 +1,18 @@
 import { notFound } from 'next/navigation'
 import { FileText, Calendar, User } from 'lucide-react'
 
-const publicacoes = [
+type Publication = {
+  id: number;
+  titulo: string;
+  ano: number;
+  semestre: string;
+  slug: string;
+  autor: string;
+  resumo: string;
+  conteudo: string;
+}
+
+const publicacoes: Publication[] = [
   {
     id: 1,
     titulo: 'Perspectiva Econômica 2023',
@@ -14,7 +25,15 @@ const publicacoes = [
   }
 ]
 
-export default function PublicacaoPage({ params }) {
+type Params = {
+  slug: string;
+}
+
+type Props = {
+  params: Params;
+}
+
+export default function PublicacaoPage({ params }: Props) {
   const publicacao = publicacoes.find(p => p.slug === params.slug)
   if (!publicacao) {
     notFound()
