@@ -9,22 +9,28 @@ interface EconomicIndicatorGraphProps {
 export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorGraphProps) {
   const formatMonth = (month: string) => {
     const date = new Date(`2024-${month}-01`);
-    return date.toLocaleString('pt-BR', { month: 'short' });
+    return date.toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
   };
 
   const formatValue = (value: number) => {
-    if (value === 0) return '0%';
-    return `${value.toFixed(2).replace(/\.?0+$/, '')}%`;
+    const absValue = Math.abs(value);
+    if (absValue === 0) return '0%';
+    if (absValue >= 100) return `${value.toFixed(0)}%`;
+    if (absValue < 0.1) return `${value.toFixed(3)}%`;
+    return `${value.toFixed(2)}%`;
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-100">
-          <p className="text-sm text-gray-600">{formatMonth(label)}</p>
-          <p className="text-lg font-semibold text-blue-600">
-            {formatValue(payload[0].value)}
-          </p>
+          <p className="text-sm font-medium text-gray-500 mb-1">{formatMonth(label)}</p>
+          <div className="flex items-baseline gap-1">
+            <span className="text-lg font-bold text-blue-600">
+              {formatValue(payload[0].value)}
+            </span>
+            <span className="text-xs text-gray-500">variação</span>
+          </div>
         </div>
       );
     }
@@ -65,17 +71,36 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
           />
           <XAxis 
             dataKey="month" 
-            tick={{ fill: '#6B7280' }}
+            tick={{ 
+              fill: '#6B7280',
+              fontSize: 12,
+              fontWeight: 500,
+              dy: 10
+            }}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={formatMonth}
-            interval={1}
+            interval="preserveStartEnd"
+            angle={-45}
+            textAnchor="end"
+            height={60}
             padding={{ left: 20, right: 20 }}
           />
           <YAxis 
-            tick={{ fill: '#6B7280' }}
+            tick={{ 
+              fill: '#6B7280',
+              fontSize: 12,
+              fontWeight: 500
+            }}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={formatValue}
-            width={60}
+            width={65}
+            domain={['auto', 'auto']}
+            label={{ 
+              value: 'Variação (%)', 
+              angle: -90, 
+              position: 'insideLeft',
+              style: { fill: '#6B7280', fontSize: 12, fontWeight: 500 }
+            }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Line 
