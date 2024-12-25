@@ -38,12 +38,12 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
   };
 
   return (
-    <div className="w-full h-[400px] md:h-[500px] p-4 bg-white rounded-xl shadow-sm">
+    <div className="w-full h-[400px] md:h-[500px] p-4 pb-16 bg-white rounded-xl shadow-sm">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{indicator.name}</h3>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart 
           data={indicator.data}
-          margin={{ top: 20, right: 30, bottom: 20, left: 20 }}
+          margin={{ top: 20, right: 30, bottom: 40, left: 20 }}
         >
           <defs>
             <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
