@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import { FileText, TrendingUp, Users } from 'lucide-react'
@@ -30,7 +31,7 @@ export default function Home() {
     <>
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <Image
-          src="/placeholder.svg"
+          src="/rio-hero.webp"
           alt="Visualização de dados econômicos"
           fill
           style={{ objectFit: 'cover' }}
