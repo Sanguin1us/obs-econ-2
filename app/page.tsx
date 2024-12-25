@@ -29,16 +29,20 @@ const publicationTypes = [
 export default function Home() {
   return (
     <>
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden">
         <Image
           src="/rio-hero.webp"
-          alt="Visualização de dados econômicos"
+          alt="Vista aérea do Rio de Janeiro"
           fill
-          style={{ objectFit: 'cover' }}
-          className="z-0"
           priority
+          quality={85}
+          style={{ 
+            objectFit: 'cover',
+            objectPosition: 'center 40%'
+          }}
+          className="z-0 brightness-90"
         />
-        <div className="absolute inset-0 bg-blue-900 bg-opacity-60 z-10"></div>
+        <div className="absolute inset-0 bg-blue-900/50 backdrop-brightness-75 z-10"></div>
         <div className="relative z-20 text-center text-white px-4 animate-fade-in-up">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Observatório Econômico</h1>
           <p className="text-xl md:text-2xl">Sua fonte de insights econômicos abrangentes e dados</p>
