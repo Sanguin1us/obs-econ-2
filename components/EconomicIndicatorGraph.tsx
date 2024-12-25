@@ -1,5 +1,5 @@
 "use client"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Dot } from 'recharts';
 import { EconomicIndicator } from '@/lib/economicData';
 
 interface EconomicIndicatorGraphProps {
@@ -17,43 +17,76 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
     return `${value.toFixed(2).replace(/\.?0+$/, '')}%`;
   };
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-100">
+          <p className="text-sm text-gray-600">{formatMonth(label)}</p>
+          <p className="text-lg font-semibold text-blue-600">
+            {formatValue(payload[0].value)}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const CustomDot = ({ cx, cy, payload }: any) => {
+    return (
+      <Dot
+        cx={cx}
+        cy={cy}
+        r={4}
+        fill="#fff"
+        stroke="#2563eb"
+        strokeWidth={2}
+      />
+    );
+  };
+
   return (
-    <div className="w-full h-64">
-      <h3 className="text-lg font-semibold mb-2">{indicator.name}</h3>
+    <div className="w-full h-[400px] md:h-[500px] p-4 bg-white rounded-xl shadow-sm">
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">{indicator.name}</h3>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart 
           data={indicator.data}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+          margin={{ top: 20, right: 30, bottom: 20, left: 20 }}
         >
-          <CartesianGrid stroke="#f0f0f0" vertical={false} />
+          <defs>
+            <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1}/>
+              <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid 
+            strokeDasharray="3 3" 
+            vertical={false} 
+            stroke="#f0f0f0"
+          />
           <XAxis 
             dataKey="month" 
             tick={{ fill: '#6B7280' }}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={formatMonth}
             interval={1}
+            padding={{ left: 20, right: 20 }}
           />
           <YAxis 
             tick={{ fill: '#6B7280' }}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={formatValue}
+            width={60}
           />
-          <Tooltip 
-            contentStyle={{ 
-              backgroundColor: '#ffffff',
-              border: '1px solid #E5E7EB',
-              borderRadius: '6px'
-            }}
-            labelFormatter={formatMonth}
-            formatter={(value) => [formatValue(Number(value)), indicator.name]}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Line 
             type="monotone" 
             dataKey="value" 
             stroke="#2563eb" 
-            strokeWidth={2}
-            dot={false}
-            activeDot={{ r: 6 }}
+            strokeWidth={2.5}
+            dot={<CustomDot />}
+            activeDot={{ r: 8, fill: "#2563eb" }}
+            animationDuration={1500}
+            fill="url(#colorValue)"
           />
         </LineChart>
       </ResponsiveContainer>
