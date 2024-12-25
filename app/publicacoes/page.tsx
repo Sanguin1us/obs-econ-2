@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect, Suspense } from "react"
 import { FileText, Download, Calendar, User } from "lucide-react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 
 function PublicacoesInner() {
   type Publication = {
@@ -58,15 +58,47 @@ function PublicacoesInner() {
       year: 2023,
       semester: "Second",
       slug: "nota-tecnica-analise-inflacao"
-    }
+    },
+    {
+      id: 4,
+      title: "Impacto Econômico do Carnaval",
+      category: "CARNAVAL DE DADOS",
+      year: 2022,
+      semester: "First",
+      slug: "impacto-economico-carnaval"
+    },
+    {
+      id: 5,
+      title: "Dados de Turismo do Réveillon",
+      category: "RÉVEILLON EM DADOS",
+      year: 2022,
+      semester: "Second",
+      slug: "dados-turismo-reveillon"
+    },
+    // Add more publications as needed
   ]
   const years = [2023, 2022, 2021, 2020]
   const semesters = ["Primeiro Semestre", "Segundo Semestre"]
   const searchParams = useSearchParams()
+  const router = useRouter()
+  
   const slug = searchParams.get("slug")
+  const categoria = searchParams.get("categoria")
+  
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null)
+  
+  // Set selectedCategory based on 'categoria' query parameter
+  useEffect(() => {
+    if (categoria && publicationCategories.includes(categoria)) {
+      setSelectedCategory(categoria)
+    } else {
+      setSelectedCategory(null)
+    }
+  }, [categoria])
+  
+  // Reset filters when 'slug' is present
   useEffect(() => {
     if (slug) {
       setSelectedCategory(null)
@@ -74,6 +106,7 @@ function PublicacoesInner() {
       setSelectedSemester(null)
     }
   }, [slug])
+  
   if (slug) {
     const pub = publications.find(item => item.slug === slug)
     if (!pub) {
@@ -121,12 +154,28 @@ function PublicacoesInner() {
       </div>
     )
   }
+  
   const filteredPublications = publications.filter(
     p =>
       (!selectedCategory || p.category === selectedCategory) &&
       (!selectedYear || p.year === selectedYear) &&
       (!selectedSemester || p.semester === (selectedSemester.includes("Primeiro") ? "First" : "Second"))
   )
+  
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null)
+      setSelectedYear(null)
+      setSelectedSemester(null)
+      router.push('/publicacoes')
+    } else {
+      setSelectedCategory(category)
+      setSelectedYear(null)
+      setSelectedSemester(null)
+      router.push(`/publicacoes?categoria=${encodeURIComponent(category)}`)
+    }
+  }
+  
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="border-b pb-8 mb-8">
@@ -137,15 +186,7 @@ function PublicacoesInner() {
           {publicationCategories.map(category => (
             <button
               key={category}
-              onClick={() => {
-                if (selectedCategory === category) {
-                  setSelectedCategory(null)
-                  setSelectedYear(null)
-                  setSelectedSemester(null)
-                } else {
-                  setSelectedCategory(category)
-                }
-              }}
+              onClick={() => handleCategoryClick(category)}
               className={`px-4 py-2 text-sm rounded-full transition-colors ${
                 selectedCategory === category
                   ? "bg-gray-900 text-white"
