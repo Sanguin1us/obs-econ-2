@@ -37,19 +37,6 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
     return null;
   };
 
-  const CustomDot = ({ cx, cy, payload }: any) => {
-    return (
-      <Dot
-        cx={cx}
-        cy={cy}
-        r={4}
-        fill="#fff"
-        stroke="#2563eb"
-        strokeWidth={2}
-      />
-    );
-  };
-
   return (
     <div className="w-full h-[400px] md:h-[500px] p-4 bg-white rounded-xl shadow-sm">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{indicator.name}</h3>
@@ -95,12 +82,6 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
             tickFormatter={formatValue}
             width={65}
             domain={['auto', 'auto']}
-            label={{ 
-              value: 'Variação (%)', 
-              angle: -90, 
-              position: 'insideLeft',
-              style: { fill: '#6B7280', fontSize: 12, fontWeight: 500 }
-            }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Line 
@@ -108,8 +89,17 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
             dataKey="value" 
             stroke="#2563eb" 
             strokeWidth={2.5}
-            dot={<CustomDot />}
-            activeDot={{ r: 8, fill: "#2563eb" }}
+            dot={{ 
+              r: 2.5,
+              fill: "#2563eb",
+              strokeWidth: 0
+            }}
+            activeDot={{ 
+              r: 6, 
+              fill: "#2563eb",
+              stroke: "#fff",
+              strokeWidth: 2
+            }}
             animationDuration={1500}
             fill="url(#colorValue)"
           />
