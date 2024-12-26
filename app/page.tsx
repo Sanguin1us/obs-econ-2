@@ -29,7 +29,7 @@ const publicationTypes = [
 export default function Home() {
   return (
     <>
-      <section className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] flex items-center justify-center overflow-hidden">
         <Image
           src="/rio-hero.webp"
           alt="Vista aérea do Rio de Janeiro"
@@ -43,36 +43,36 @@ export default function Home() {
           className="z-0 brightness-90"
         />
         <div className="absolute inset-0 bg-blue-900/50 backdrop-brightness-75 z-10"></div>
-        <div className="relative z-20 text-center text-white px-4 animate-fade-in-up">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Observatório Econômico</h1>
-          <p className="text-xl md:text-2xl">Sua fonte de insights econômicos abrangentes e dados</p>
-          <Link href="/publicacoes" className="mt-8 inline-block bg-white text-blue-900 px-6 py-3 rounded-md font-semibold hover:bg-blue-100 transition-colors">
+        <div className="relative z-20 text-center text-white px-6 md:px-8 animate-fade-in-up">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Observatório Econômico</h1>
+          <p className="text-xl md:text-2xl mb-10">Sua fonte de insights econômicos abrangentes e dados</p>
+          <Link href="/publicacoes" className="mt-10 inline-block bg-white text-blue-900 px-8 py-4 rounded-md font-semibold hover:bg-blue-100 transition-colors">
             Explorar Publicações
           </Link>
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">Nossas Publicações</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="container mx-auto px-6 md:px-8 py-20 md:py-24">
+        <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">Nossas Publicações</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {publicationTypes.map((type, index) => (
             <Link
               key={type.title}
               href={`/publicacoes?categoria=${encodeURIComponent(type.category)}`}
-              className={`flex flex-col items-center text-center p-6 bg-blue-50 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg animate-fade-in-up cursor-pointer`}
+              className={`flex flex-col items-center text-center p-8 bg-blue-50 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg animate-fade-in-up cursor-pointer`}
               style={{animationDelay: `${index * 200}ms`}}
             >
-              <type.icon size={48} className="text-blue-900 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">{type.title}</h3>
+              <type.icon size={56} className="text-blue-900 mb-6" />
+              <h3 className="text-2xl font-semibold mb-4">{type.title}</h3>
               <p className="text-gray-600">{type.description}</p>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">Indicadores de Atividade Econômica</h2>
-        <div className="grid gap-8">
+      <section className="container mx-auto px-6 md:px-8 py-20 md:py-24">
+        <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">Indicadores de Atividade Econômica</h2>
+        <div className="grid gap-12">
           {economicIndicators.map((indicator) => (
             <EconomicIndicatorGraph key={indicator.name} indicator={indicator} />
           ))}
