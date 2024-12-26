@@ -17,8 +17,8 @@ function PublicacoesInner() {
   }
   const publicationCategories = [
     "BOLETIM ECONÔMICO",
-    "ESTUDOS ESPECIAIS",
     "NOTAS TÉCNICAS",
+    "ESTUDOS ESPECIAIS",
     "APRESENTAÇÕES",
     "CARNAVAL DE DADOS",
     "RÉVEILLON EM DADOS",
