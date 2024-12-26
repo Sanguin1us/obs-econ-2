@@ -2,7 +2,6 @@
 import { useState, useEffect, Suspense } from "react"
 import { FileText, Download, Calendar, User } from "lucide-react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { motion } from 'framer-motion'
 
 function PublicacoesInner() {
   type Publication = {
@@ -75,17 +74,22 @@ function PublicacoesInner() {
       year: 2022,
       semester: "Second",
       slug: "dados-turismo-reveillon"
-    }
+    },
+    // Add more publications as needed
   ]
   const years = [2023, 2022, 2021, 2020]
   const semesters = ["Primeiro Semestre", "Segundo Semestre"]
   const searchParams = useSearchParams()
   const router = useRouter()
+  
   const slug = searchParams.get("slug")
   const categoria = searchParams.get("categoria")
+  
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null)
+  
+  // Set selectedCategory based on 'categoria' query parameter
   useEffect(() => {
     if (categoria && publicationCategories.includes(categoria)) {
       setSelectedCategory(categoria)
@@ -93,6 +97,8 @@ function PublicacoesInner() {
       setSelectedCategory(null)
     }
   }, [categoria])
+  
+  // Reset filters when 'slug' is present
   useEffect(() => {
     if (slug) {
       setSelectedCategory(null)
@@ -100,6 +106,7 @@ function PublicacoesInner() {
       setSelectedSemester(null)
     }
   }, [slug])
+  
   if (slug) {
     const pub = publications.find(item => item.slug === slug)
     if (!pub) {
@@ -110,12 +117,7 @@ function PublicacoesInner() {
       )
     }
     return (
-      <motion.div
-        className="container mx-auto px-4 py-16"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
+      <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold mb-8">{pub.title}</h1>
         <div className="flex flex-wrap gap-6 mb-8 text-gray-600">
           <div className="flex items-center">
@@ -149,15 +151,17 @@ function PublicacoesInner() {
             Download do Relatório
           </button>
         </div>
-      </motion.div>
+      </div>
     )
   }
+  
   const filteredPublications = publications.filter(
     p =>
       (!selectedCategory || p.category === selectedCategory) &&
       (!selectedYear || p.year === selectedYear) &&
       (!selectedSemester || p.semester === (selectedSemester.includes("Primeiro") ? "First" : "Second"))
   )
+  
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category) {
       setSelectedCategory(null)
@@ -171,13 +175,9 @@ function PublicacoesInner() {
       router.push(`/publicacoes?categoria=${encodeURIComponent(category)}`)
     }
   }
+  
   return (
-    <motion.div
-      className="max-w-7xl mx-auto px-4 py-12"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+    <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="border-b pb-8 mb-8">
         <h1 className="text-3xl font-semibold text-gray-900">Publicações</h1>
       </div>
@@ -221,7 +221,9 @@ function PublicacoesInner() {
                 {semesters.map(semester => (
                   <button
                     key={semester}
-                    onClick={() => setSelectedSemester(selectedSemester === semester ? null : semester)}
+                    onClick={() =>
+                      setSelectedSemester(selectedSemester === semester ? null : semester)
+                    }
                     className={`px-3 py-1 text-sm rounded-full transition-colors ${
                       selectedSemester === semester
                         ? "bg-gray-900 text-white"
@@ -239,13 +241,9 @@ function PublicacoesInner() {
           {filteredPublications.map(pub => {
             const semLabel = pub.semester === "First" ? "Primeiro" : "Segundo"
             return (
-              <motion.div
+              <div
                 key={pub.id}
                 className="group flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
-                initial={{ x: -30, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
               >
                 <div className="flex items-center gap-4">
                   <div className="p-2 rounded-full bg-gray-100 group-hover:bg-white transition-colors">
@@ -265,7 +263,7 @@ function PublicacoesInner() {
                   <Download className="w-4 h-4" />
                   <span>Download</span>
                 </a>
-              </motion.div>
+              </div>
             )
           })}
           {filteredPublications.length === 0 && (
@@ -275,7 +273,7 @@ function PublicacoesInner() {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
