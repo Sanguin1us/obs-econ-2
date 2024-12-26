@@ -1,11 +1,16 @@
 import Image from 'next/image'
 import { projects } from '@/lib/projectsData'
+import { motion } from 'framer-motion'
 
 export default function Sobre() {
   return (
-    <div className="container mx-auto px-4 py-16">
+    <motion.div
+      className="container mx-auto px-4 py-16"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <h1 className="text-4xl font-bold mb-8 text-center">Sobre o Observatório Econômico</h1>
-      
       <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
         <div className="space-y-6">
           <p className="text-lg">
@@ -27,43 +32,72 @@ export default function Sobre() {
           />
         </div>
       </div>
-
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-8 text-center">Nossas Metas</h2>
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-blue-50 p-6 rounded-lg">
+          <motion.div
+            className="bg-blue-50 p-6 rounded-lg"
+            initial={{ x: -40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-xl font-semibold mb-4">Reduzir o Desemprego</h3>
             <p>Reduzir a taxa de desemprego anual do Rio de 14,7% para 8%</p>
-          </div>
-          <div className="bg-blue-50 p-6 rounded-lg">
+          </motion.div>
+          <motion.div
+            className="bg-blue-50 p-6 rounded-lg"
+            initial={{ x: 40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-xl font-semibold mb-4">Melhorar o Ambiente de Negócios</h3>
             <p>Tornar o Rio a melhor cidade da América Latina para abrir negócios e licenciar obras de construção</p>
-          </div>
-          <div className="bg-blue-50 p-6 rounded-lg">
+          </motion.div>
+          <motion.div
+            className="bg-blue-50 p-6 rounded-lg"
+            initial={{ x: -40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-xl font-semibold mb-4">Crescimento Econômico</h3>
             <p>Fortalecer a economia visando um crescimento médio anual de 3% do Produto Interno Bruto (PIB)</p>
-          </div>
-          <div className="bg-blue-50 p-6 rounded-lg">
+          </motion.div>
+          <motion.div
+            className="bg-blue-50 p-6 rounded-lg"
+            initial={{ x: 40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-xl font-semibold mb-4">Fomentar a Inovação</h3>
             <p>Atrair e fomentar a criação de 400 novas startups</p>
-          </div>
+          </motion.div>
         </div>
       </section>
-
       <section className="mt-16">
         <h2 className="text-3xl font-bold mb-8 text-center">Nossos Projetos</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <div key={project.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+            >
               <img src={project.imageUrl} alt={project.title} className="w-full h-48 object-cover" />
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="text-gray-600">{project.description}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
-    </div>
+    </motion.div>
   )
 }

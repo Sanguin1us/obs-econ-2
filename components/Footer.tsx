@@ -1,8 +1,14 @@
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 export default function Footer() {
   return (
-    <footer className="bg-blue-900 text-white py-8">
+    <motion.footer
+      className="bg-blue-900 text-white py-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-4">
           <p>Em caso de dúvidas, sugestões ou reclamações entre em contato conosco.</p>
@@ -17,7 +23,6 @@ export default function Footer() {
           © 2024 Observatório Econômico. Todos os direitos reservados.
         </div>
       </div>
-    </footer>
+    </motion.footer>
   )
 }
-

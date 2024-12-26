@@ -1,7 +1,7 @@
 "use client"
-
 import { useState } from 'react'
 import { FileText, Download } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const datasets = {
   ATIVIDADE: [
@@ -32,20 +32,21 @@ const datasets = {
   ]
 }
 
-// Define a type that represents the keys of the datasets object
 type DatasetCategory = keyof typeof datasets
 
 export default function DadosPage() {
-  // Update the state to use the DatasetCategory type
   const [activeCategory, setActiveCategory] = useState<DatasetCategory | null>(null)
-
   return (
-    <div className="container mx-auto px-4 py-16">
+    <motion.div
+      className="container mx-auto px-4 py-16"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <h1 className="text-4xl font-bold mb-8">Dados Econômicos</h1>
-      
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        {Object.keys(datasets).map((category) => (
-          <button
+        {Object.keys(datasets).map((category, i) => (
+          <motion.button
             key={category}
             onClick={() => setActiveCategory(activeCategory === category ? null : category as DatasetCategory)}
             className={`p-4 rounded-lg text-center transition-colors ${
@@ -53,14 +54,22 @@ export default function DadosPage() {
                 ? 'bg-blue-900 text-white'
                 : 'bg-blue-100 text-blue-900 hover:bg-blue-200'
             }`}
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1, duration: 0.5 }}
           >
             {category}
-          </button>
+          </motion.button>
         ))}
       </div>
-
       {activeCategory && (
-        <div className="space-y-6">
+        <motion.div
+          className="space-y-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 className="text-2xl font-semibold mb-4">{activeCategory}</h2>
           {datasets[activeCategory].map((dataset, index) => (
             <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -74,8 +83,8 @@ export default function DadosPage() {
               </button>
             </div>
           ))}
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }

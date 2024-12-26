@@ -1,25 +1,23 @@
 "use client"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Dot } from 'recharts';
-import { EconomicIndicator } from '@/lib/economicData';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { EconomicIndicator } from '@/lib/economicData'
 
 interface EconomicIndicatorGraphProps {
-  indicator: EconomicIndicator;
+  indicator: EconomicIndicator
 }
 
 export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorGraphProps) {
   const formatMonth = (month: string) => {
-    const date = new Date(`2024-${month}-01`);
-    return date.toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
-  };
-
+    const date = new Date(`2024-${month}-01`)
+    return date.toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase())
+  }
   const formatValue = (value: number) => {
-    const absValue = Math.abs(value);
-    if (absValue === 0) return '0%';
-    if (absValue >= 100) return `${value.toFixed(0)}%`;
-    if (absValue < 0.1) return `${value.toFixed(3)}%`;
-    return `${value.toFixed(2)}%`;
-  };
-
+    const absValue = Math.abs(value)
+    if (absValue === 0) return '0%'
+    if (absValue >= 100) return `${value.toFixed(0)}%`
+    if (absValue < 0.1) return `${value.toFixed(3)}%`
+    return `${value.toFixed(2)}%`
+  }
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -32,11 +30,10 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
             <span className="text-xs text-gray-500">variação</span>
           </div>
         </div>
-      );
+      )
     }
-    return null;
-  };
-
+    return null
+  }
   return (
     <div className="w-full h-[400px] md:h-[500px] p-4 pb-16 bg-white rounded-xl shadow-sm">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{indicator.name}</h3>
@@ -51,19 +48,10 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
               <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
             </linearGradient>
           </defs>
-          <CartesianGrid 
-            strokeDasharray="3 3" 
-            vertical={false} 
-            stroke="#f0f0f0"
-          />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0"/>
           <XAxis 
-            dataKey="month" 
-            tick={{ 
-              fill: '#6B7280',
-              fontSize: 12,
-              fontWeight: 500,
-              dy: 10
-            }}
+            dataKey="month"
+            tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 500, dy: 10 }}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={formatMonth}
             interval="preserveStartEnd"
@@ -73,11 +61,7 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
             padding={{ left: 20, right: 20 }}
           />
           <YAxis 
-            tick={{ 
-              fill: '#6B7280',
-              fontSize: 12,
-              fontWeight: 500
-            }}
+            tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 500 }}
             axisLine={{ stroke: '#E5E7EB' }}
             tickFormatter={formatValue}
             width={65}
@@ -85,27 +69,17 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
           />
           <Tooltip content={<CustomTooltip />} />
           <Line 
-            type="monotone" 
-            dataKey="value" 
-            stroke="#2563eb" 
+            type="monotone"
+            dataKey="value"
+            stroke="#2563eb"
             strokeWidth={2.5}
-            dot={{ 
-              r: 2.5,
-              fill: "#2563eb",
-              strokeWidth: 0
-            }}
-            activeDot={{ 
-              r: 6, 
-              fill: "#2563eb",
-              stroke: "#fff",
-              strokeWidth: 2
-            }}
+            dot={{ r: 2.5, fill: "#2563eb", strokeWidth: 0 }}
+            activeDot={{ r: 6, fill: "#2563eb", stroke: "#fff", strokeWidth: 2 }}
             animationDuration={1500}
             fill="url(#colorValue)"
           />
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }
-
