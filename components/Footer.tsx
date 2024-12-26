@@ -1,34 +1,76 @@
 import Link from 'next/link'
 import { MdEmail, MdLocationOn } from 'react-icons/md'
+import { FaLinkedin, FaInstagram, FaXTwitter, FaFacebook } from 'react-icons/fa6'
 
 export default function Footer() {
   return (
-    <footer className="bg-blue-900 text-white py-12">
+    <footer className="bg-gradient-to-b from-blue-900 to-blue-950 text-white py-12">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <p className="text-lg">Em caso de dúvidas, sugestões ou reclamações entre em contato conosco.</p>
+          <h2 className="text-xl font-semibold mb-2">Entre em Contato</h2>
+          <p className="text-gray-200">Em caso de dúvidas, sugestões ou reclamações entre em contato conosco.</p>
         </div>
+        
         <div className="max-w-2xl mx-auto space-y-6">
-          <div className="flex items-center justify-center space-x-2 p-3 hover:bg-blue-800/30 rounded-lg transition-colors">
-            <MdEmail className="text-xl flex-shrink-0" />
-            <a href="mailto:observatorioeconomico@rio.rj.gov.br" className="hover:text-blue-200 transition-colors">
+          <div className="flex items-center justify-center space-x-2 p-3 hover:bg-blue-800/30 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">
+            <MdEmail className="text-2xl flex-shrink-0 text-blue-200" />
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=observatorioeconomico@rio.rj.gov.br" 
+               target="_blank"
+               rel="noopener noreferrer"
+               className="hover:text-blue-200 transition-colors font-medium">
               observatorioeconomico@rio.rj.gov.br
             </a>
           </div>
-          <div className="flex items-start justify-center space-x-2 p-3 hover:bg-blue-800/30 rounded-lg transition-colors">
-            <MdLocationOn className="text-xl flex-shrink-0 mt-1" />
-            <div className="text-center">
-              <p className="font-medium mb-2">Centro Administrativo São Sebastião</p>
-              <div className="text-gray-200">
+          
+          <div className="flex items-start justify-center space-x-2 p-4 hover:bg-blue-800/30 rounded-lg transition-all duration-300">
+            <MdLocationOn className="text-2xl flex-shrink-0 mt-1 text-blue-200" />
+            <a href="https://maps.app.goo.gl/sFHrJ4RwtztXPQdq5"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="text-center hover:text-blue-200 transition-colors">
+              <p className="font-semibold mb-2">Centro Administrativo São Sebastião</p>
+              <div className="text-gray-200 space-y-1">
                 <p>R. Afonso Cavalcanti, 455, 11° andar</p>
                 <p>Cidade Nova, Rio de Janeiro - RJ</p>
                 <p>20211-110</p>
               </div>
-            </div>
+            </a>
           </div>
         </div>
-        <div className="text-center text-sm mt-8 pt-8 border-t border-blue-800">
-          © 2024 Observatório Econômico. Todos os direitos reservados.
+
+        <div className="flex justify-center space-x-6 mt-8 mb-6">
+          <a href="https://www.linkedin.com/company/smdue-rio/" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="text-gray-300 hover:text-white transition-colors transform hover:scale-110 duration-300"
+             aria-label="LinkedIn">
+            <FaLinkedin className="text-2xl" />
+          </a>
+          <a href="https://www.instagram.com/desenvolvimento_rio/" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="text-gray-300 hover:text-white transition-colors transform hover:scale-110 duration-300"
+             aria-label="Instagram">
+            <FaInstagram className="text-2xl" />
+          </a>
+          <a href="https://www.facebook.com/desenvolvimento.rio" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="text-gray-300 hover:text-white transition-colors transform hover:scale-110 duration-300"
+             aria-label="Facebook">
+            <FaFacebook className="text-2xl" />
+          </a>
+          <a href="https://x.com/smdue_rio" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="text-gray-300 hover:text-white transition-colors transform hover:scale-110 duration-300"
+             aria-label="X (Twitter)">
+            <FaXTwitter className="text-2xl" />
+          </a>
+        </div>
+
+        <div className="text-center text-sm mt-8 pt-8 border-t border-blue-800/50">
+          <p className="text-gray-300">© 2024 Observatório Econômico. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
