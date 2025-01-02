@@ -14,6 +14,7 @@ function PublicacoesInner() {
     autor?: string
     resumo?: string
     conteudo?: string
+    downloadUrl?: string
   }
 
   // Helper function to normalize text for searching
@@ -50,7 +51,8 @@ function PublicacoesInner() {
       slug: "perspectiva-economica-2023",
       autor: "Dra. Ana Silva",
       resumo: "Análise detalhada do cenário econômico atual.",
-      conteudo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      conteudo: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Perspectiva-Economica-2023.pdf"
     },
     {
       id: 2,
@@ -58,7 +60,8 @@ function PublicacoesInner() {
       category: "ESTUDOS ESPECIAIS",
       year: 2023,
       semester: "First",
-      slug: "estudo-especial-economia-verde"
+      slug: "estudo-especial-economia-verde",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Estudo-Especial-Economia-Verde.pdf"
     },
     {
       id: 3,
@@ -66,7 +69,8 @@ function PublicacoesInner() {
       category: "NOTAS TÉCNICAS",
       year: 2023,
       semester: "Second",
-      slug: "nota-tecnica-analise-inflacao"
+      slug: "nota-tecnica-analise-inflacao",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Nota-Tecnica-Analise-Inflacao.pdf"
     },
     {
       id: 4,
@@ -74,19 +78,33 @@ function PublicacoesInner() {
       category: "CARNAVAL DE DADOS",
       year: 2022,
       semester: "First",
-      slug: "impacto-economico-carnaval"
+      slug: "impacto-economico-carnaval",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Impacto-Economico-Carnaval.pdf"
     },
     {
       id: 5,
-      title: "Dados de Turismo do Réveillon",
+      title: "Dados do Turismo do Réveillon",
       category: "RÉVEILLON EM DADOS",
       year: 2022,
       semester: "Second",
-      slug: "dados-turismo-reveillon"
+      slug: "dados-turismo-reveillon",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Dados-Turismo-Reveillon.pdf"
+    },
+    {
+      id: 6,
+      title: "Boletim Econômico 2024 - Dezembro",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-2024-dezembro",
+      autor: "Dr. João Pereira",
+      resumo: "Análise econômica do Rio de Janeiro no segundo semestre de 2024.",
+      conteudo: "Detalhamento das principais métricas econômicas e projeções para o próximo ano.",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletim-Economico-2024-DEZEMBRO.pdf"
     },
     // Add more publications as needed
   ]
-  const years = [2023, 2022, 2021, 2020]
+  const years = [2024, 2023, 2022, 2021, 2020]
   const semesters = ["Primeiro Semestre", "Segundo Semestre"]
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -157,10 +175,22 @@ function PublicacoesInner() {
           </div>
         )}
         <div className="mt-12">
-          <button className="inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors">
-            <FileText className="mr-2" size={20} />
-            Download do Relatório
-          </button>
+          {pub.downloadUrl ? (
+            <a
+              href={pub.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
+            >
+              <FileText className="mr-2" size={20} />
+              Download do Relatório
+            </a>
+          ) : (
+            <button className="inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors">
+              <FileText className="mr-2" size={20} />
+              Download do Relatório
+            </button>
+          )}
         </div>
       </div>
     )
@@ -328,17 +358,29 @@ function PublicacoesInner() {
                     </p>
                   </div>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // TODO: Implement actual download functionality
-                    console.log(`Downloading publication: ${pub.slug}`);
-                  }}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100/80 transition-colors duration-200"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download</span>
-                </button>
+                {pub.downloadUrl ? (
+                  <a
+                    href={pub.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100/80 transition-colors duration-200"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download</span>
+                  </a>
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // TODO: Implement actual download functionality
+                      console.log(`Downloading publication: ${pub.slug}`);
+                    }}
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100/80 transition-colors duration-200"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download</span>
+                  </button>
+                )}
               </div>
             )
           })}
