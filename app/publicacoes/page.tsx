@@ -17,13 +17,12 @@ function PublicacoesInner() {
     downloadUrl?: string
   }
 
-  // Helper function to normalize text for searching
   const normalizeText = (text: string) => {
     return text
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
-  };
+      .replace(/[\u0300-\u036f]/g, '')
+  }
 
   const publicationCategories = [
     "BOLETIM ECONÔMICO",
@@ -41,6 +40,7 @@ function PublicacoesInner() {
     "ECONOMIA DA MODA",
     "DEMAIS PUBLICAÇÕES"
   ]
+
   const publications: Publication[] = [
     {
       id: 1,
@@ -102,23 +102,407 @@ function PublicacoesInner() {
       conteudo: "Detalhamento das principais métricas econômicas e projeções para o próximo ano.",
       downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletim-Economico-2024-DEZEMBRO.pdf"
     },
-    // Add more publications as needed
+    {
+      id: 7,
+      title: "Boletim Econômico do Rio – 10ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-10a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2010%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 8,
+      title: "Boletim Econômico do Rio – 10ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-10a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2010%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 9,
+      title: "Boletim Econômico do Rio – 10ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-10a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2010%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 10,
+      title: "Boletim Econômico do Rio – 11ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-11a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2011%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 11,
+      title: "Boletim Econômico do Rio – 11ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-11a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2011%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 12,
+      title: "Boletim Econômico do Rio – 11ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-11a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2011%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 13,
+      title: "Boletim Econômico do Rio – 12ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-12a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2012%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 14,
+      title: "Boletim Econômico do Rio – 12ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-12a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2012%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 15,
+      title: "Boletim Econômico do Rio – 12ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-12a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2012%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 16,
+      title: "Boletim Econômico do Rio – 1ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-1a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%201%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 17,
+      title: "Boletim Econômico do Rio – 1ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-1a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%201%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 18,
+      title: "Boletim Econômico do Rio – 1ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-1a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%201%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 19,
+      title: "Boletim Econômico do Rio – 1ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-1a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%201%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 20,
+      title: "Boletim Econômico do Rio – 2ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-2a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%202%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 21,
+      title: "Boletim Econômico do Rio – 2ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-2a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%202%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 22,
+      title: "Boletim Econômico do Rio – 2ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-2a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%202%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 23,
+      title: "Boletim Econômico do Rio – 2ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-2a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%202%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 24,
+      title: "Boletim Econômico do Rio – 3ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-3a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%203%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 25,
+      title: "Boletim Econômico do Rio – 3ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-3a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%203%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 26,
+      title: "Boletim Econômico do Rio – 3ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-3a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%203%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 27,
+      title: "Boletim Econômico do Rio – 3ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-3a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%203%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 28,
+      title: "Boletim Econômico do Rio – 4ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-4a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%204%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 29,
+      title: "Boletim Econômico do Rio – 4ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-4a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%204%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 30,
+      title: "Boletim Econômico do Rio – 4ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-4a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%204%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 31,
+      title: "Boletim Econômico do Rio – 4ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-4a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%204%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 32,
+      title: "Boletim Econômico do Rio – 5ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-5a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%205%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 33,
+      title: "Boletim Econômico do Rio – 5ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-5a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%205%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 34,
+      title: "Boletim Econômico do Rio – 5ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-5a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%205%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 35,
+      title: "Boletim Econômico do Rio – 5ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-5a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%205%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 36,
+      title: "Boletim Econômico do Rio – 6ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-6a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%206%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 37,
+      title: "Boletim Econômico do Rio – 6ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-6a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%206%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 38,
+      title: "Boletim Econômico do Rio – 6ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-6a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%206%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 39,
+      title: "Boletim Econômico do Rio – 6ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-6a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%206%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 40,
+      title: "Boletim Econômico do Rio – 7ª edição – 2021",
+      category: "BOLETIM ECONÔMICO",
+      year: 2021,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-7a-edicao-2021",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%207%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202021.pdf"
+    },
+    {
+      id: 41,
+      title: "Boletim Econômico do Rio – 7ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-7a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%207%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 42,
+      title: "Boletim Econômico do Rio – 7ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-7a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%207%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 43,
+      title: "Boletim Econômico do Rio – 7ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-7a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%207%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 44,
+      title: "Boletim Econômico do Rio – 8ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-8a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%208%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 45,
+      title: "Boletim Econômico do Rio – 8ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-8a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%208%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 46,
+      title: "Boletim Econômico do Rio – 8ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-8a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%208%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    },
+    {
+      id: 47,
+      title: "Boletim Econômico do Rio – 9ª edição – 2022",
+      category: "BOLETIM ECONÔMICO",
+      year: 2022,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-9a-edicao-2022",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%209%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202022.pdf"
+    },
+    {
+      id: 48,
+      title: "Boletim Econômico do Rio – 9ª edição – 2023",
+      category: "BOLETIM ECONÔMICO",
+      year: 2023,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-9a-edicao-2023",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%209%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202023.pdf"
+    },
+    {
+      id: 49,
+      title: "Boletim Econômico do Rio – 9ª edição – 2024",
+      category: "BOLETIM ECONÔMICO",
+      year: 2024,
+      semester: "Second",
+      slug: "boletim-economico-do-rio-9a-edicao-2024",
+      downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%209%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
+    }
   ]
+
   const years = [2024, 2023, 2022, 2021, 2020]
   const semesters = ["Primeiro Semestre", "Segundo Semestre"]
   const searchParams = useSearchParams()
   const router = useRouter()
-  
   const slug = searchParams.get("slug")
   const categoria = searchParams.get("categoria")
-  
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  
-  // Set selectedCategory based on 'categoria' query parameter
+
   useEffect(() => {
     if (categoria && publicationCategories.includes(categoria)) {
       setSelectedCategory(categoria)
@@ -126,8 +510,7 @@ function PublicacoesInner() {
       setSelectedCategory(null)
     }
   }, [categoria])
-  
-  // Reset filters when 'slug' is present
+
   useEffect(() => {
     if (slug) {
       setSelectedCategory(null)
@@ -135,7 +518,7 @@ function PublicacoesInner() {
       setSelectedSemester(null)
     }
   }, [slug])
-  
+
   if (slug) {
     const pub = publications.find(item => item.slug === slug)
     if (!pub) {
@@ -195,29 +578,27 @@ function PublicacoesInner() {
       </div>
     )
   }
-  
+
   const filteredPublications = publications.filter(p => {
     if (!searchQuery) return (
       (!selectedCategory || p.category === selectedCategory) &&
       (!selectedYear || p.year === selectedYear) &&
       (!selectedSemester || p.semester === (selectedSemester.includes("Primeiro") ? "First" : "Second"))
-    );
-
-    const normalizedQuery = normalizeText(searchQuery);
+    )
+    const normalizedQuery = normalizeText(searchQuery)
     const matchesSearch = [
       p.title,
       p.category,
       p.autor || '',
       p.resumo || ''
-    ].some(field => normalizeText(field).includes(normalizedQuery));
-
+    ].some(field => normalizeText(field).includes(normalizedQuery))
     return (
       matchesSearch &&
       (!selectedCategory || p.category === selectedCategory) &&
       (!selectedYear || p.year === selectedYear) &&
       (!selectedSemester || p.semester === (selectedSemester.includes("Primeiro") ? "First" : "Second"))
-    );
-  });
+    )
+  })
 
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category) {
@@ -232,7 +613,7 @@ function PublicacoesInner() {
       router.push(`/publicacoes?categoria=${encodeURIComponent(category)}`)
     }
   }
-  
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="border-b pb-8 mb-8">
@@ -371,9 +752,8 @@ function PublicacoesInner() {
                 ) : (
                   <button
                     onClick={(e) => {
-                      e.stopPropagation();
-                      // TODO: Implement actual download functionality
-                      console.log(`Downloading publication: ${pub.slug}`);
+                      e.stopPropagation()
+                      console.log(`Downloading publication: ${pub.slug}`)
                     }}
                     className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100/80 transition-colors duration-200"
                   >
