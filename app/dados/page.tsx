@@ -1,7 +1,9 @@
 "use client"
 import { useState } from 'react'
 import { FileText, Download, Eye } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
+// The same structure for dataset categories and their sub-items
 const datasets = {
   ATIVIDADE: [
     "Índice de Atividade Econômica (IAE-Rio)",
@@ -33,8 +35,38 @@ const datasets = {
 
 type DatasetCategory = keyof typeof datasets
 
+import { datasetData } from '@/lib/datasetData'
+
 export default function DadosPage() {
   const [activeCategory, setActiveCategory] = useState<DatasetCategory | null>(null)
+  const router = useRouter()
+
+  // Function to trigger CSV download
+  const handleDownload = (dataset: string) => {
+    // Retrieve the data array from the same place used in [dataset]/page.tsx
+    const data = datasetData[dataset] || []
+
+    // Build CSV content
+    // Example schema: month, value
+    const headers = ["month,value"]
+    const rows = data.map((item) => `${item.month},${item.value}`)
+    const csvContent = [headers.join(","), ...rows].join("\n")
+
+    // Create a Blob from the CSV string
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+
+    // Create a temporary link to trigger the download
+    const link = document.createElement("a")
+    link.href = url
+    link.setAttribute("download", `${dataset}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    // Release object URL
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -44,11 +76,13 @@ export default function DadosPage() {
           <button
             key={category}
             onClick={() => setActiveCategory(activeCategory === category ? null : category as DatasetCategory)}
-            className={`p-4 rounded-lg text-center transition-colors ${
-              activeCategory === category
+            className={`
+              p-4 rounded-lg text-center transition-colors 
+              ${activeCategory === category
                 ? 'bg-blue-900 text-white'
                 : 'bg-blue-100 text-blue-900 hover:bg-blue-200'
-            }`}
+              }
+            `}
           >
             {category}
           </button>
@@ -64,16 +98,21 @@ export default function DadosPage() {
                 <span>{dataset}</span>
               </div>
               <div className="flex items-center space-x-2">
+                {/* Visualizar Button */}
                 <button 
                   onClick={() => {
-                    window.location.href = `/dados/${encodeURIComponent(dataset)}`
+                    router.push(`/dados/${encodeURIComponent(dataset)}`)
                   }}
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
                 >
                   <Eye size={16} />
                   <span>Visualizar</span>
                 </button>
-                <button className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors">
+                {/* Download Button */}
+                <button
+                  onClick={() => handleDownload(dataset)}
+                  className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
+                >
                   <Download size={16} />
                   <span>Download</span>
                 </button>

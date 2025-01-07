@@ -2,27 +2,18 @@
 import { useParams } from "next/navigation"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { useMemo } from "react"
+import { datasetData } from "@/lib/datasetData"
 
 export default function VisualizarDadosPage() {
   const params = useParams()
   const datasetParam = Array.isArray(params.dataset) ? params.dataset[0] : params.dataset || ""
   const datasetName = decodeURIComponent(datasetParam)
+
+  // Pull the array of data from /lib/datasetData.ts
+  // Fallback to an empty array if not found
   const data = useMemo(() => {
-    return [
-      { month: "Jan", value: 10 },
-      { month: "Feb", value: 12 },
-      { month: "Mar", value: 18 },
-      { month: "Apr", value: 9 },
-      { month: "May", value: 14 },
-      { month: "Jun", value: 16 },
-      { month: "Jul", value: 13 },
-      { month: "Aug", value: 15 },
-      { month: "Sep", value: 20 },
-      { month: "Oct", value: 22 },
-      { month: "Nov", value: 17 },
-      { month: "Dec", value: 25 },
-    ]
-  }, [])
+    return datasetData[datasetName] || []
+  }, [datasetName])
 
   const formatMonth = (m: string) => {
     return m
