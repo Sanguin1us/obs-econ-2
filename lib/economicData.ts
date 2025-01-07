@@ -52,7 +52,7 @@ export const economicIndicators: EconomicIndicator[] = [
       { month: "Sep", value: 10.7 },
       { month: "Oct", value: 10.5 },
       { month: "Nov", value: 10.6 },
-      { month: "Dec", value: 10.4 },
+      { month: "Dec", value: 10.3 },
     ],
   },
 ]
