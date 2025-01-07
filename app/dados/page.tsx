@@ -1,7 +1,6 @@
 "use client"
-
 import { useState } from 'react'
-import { FileText, Download } from 'lucide-react'
+import { FileText, Download, Eye } from 'lucide-react'
 
 const datasets = {
   ATIVIDADE: [
@@ -32,17 +31,14 @@ const datasets = {
   ]
 }
 
-// Define a type that represents the keys of the datasets object
 type DatasetCategory = keyof typeof datasets
 
 export default function DadosPage() {
-  // Update the state to use the DatasetCategory type
   const [activeCategory, setActiveCategory] = useState<DatasetCategory | null>(null)
 
   return (
     <div className="container mx-auto px-4 py-16">
       <h1 className="text-4xl font-bold mb-8">Dados Econômicos</h1>
-      
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {Object.keys(datasets).map((category) => (
           <button
@@ -58,7 +54,6 @@ export default function DadosPage() {
           </button>
         ))}
       </div>
-
       {activeCategory && (
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold mb-4">{activeCategory}</h2>
@@ -68,10 +63,21 @@ export default function DadosPage() {
                 <FileText className="text-blue-900" />
                 <span>{dataset}</span>
               </div>
-              <button className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors">
-                <Download size={16} />
-                <span>Download</span>
-              </button>
+              <div className="flex items-center space-x-2">
+                <button 
+                  onClick={() => {
+                    window.location.href = `/dados/${encodeURIComponent(dataset)}`
+                  }}
+                  className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
+                >
+                  <Eye size={16} />
+                  <span>Visualizar</span>
+                </button>
+                <button className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors">
+                  <Download size={16} />
+                  <span>Download</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>

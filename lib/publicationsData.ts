@@ -371,37 +371,5 @@ export const publications: Publication[] = [
     year: 2024,
     slug: "boletim-economico-do-rio-12a-edicao-2024",
     downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Boletims/Boletim%20Econ%C3%B4mico%20do%20Rio%20%E2%80%93%2012%C2%AA%20edi%C3%A7%C3%A3o%20%E2%80%93%202024.pdf"
-  },
-  {
-    id: 44,
-    title: "Estudo Especial: Economia Verde",
-    category: "ESTUDOS ESPECIAIS",
-    year: 2023,
-    slug: "estudo-especial-economia-verde",
-    downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Estudo-Especial-Economia-Verde.pdf"
-  },
-  {
-    id: 45,
-    title: "Nota Técnica: Análise da Inflação",
-    category: "NOTAS TÉCNICAS",
-    year: 2023,
-    slug: "nota-tecnica-analise-inflacao",
-    downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Nota-Tecnica-Analise-Inflacao.pdf"
-  },
-  {
-    id: 46,
-    title: "Impacto Econômico do Carnaval",
-    category: "CARNAVAL DE DADOS",
-    year: 2022,
-    slug: "impacto-economico-carnaval",
-    downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Impacto-Economico-Carnaval.pdf"
-  },
-  {
-    id: 47,
-    title: "Dados do Turismo do Réveillon",
-    category: "RÉVEILLON EM DADOS",
-    year: 2022,
-    slug: "dados-turismo-reveillon",
-    downloadUrl: "https://raw.githubusercontent.com/Sanguin1us/arquivos_obs_econ/main/Dados-Turismo-Reveillon.pdf"
   }
 ]

@@ -1,24 +1,24 @@
 "use client"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Dot } from 'recharts';
-import { EconomicIndicator } from '@/lib/economicData';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { EconomicIndicator } from '@/lib/economicData'
 
 interface EconomicIndicatorGraphProps {
-  indicator: EconomicIndicator;
+  indicator: EconomicIndicator
 }
 
 export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorGraphProps) {
   const formatMonth = (month: string) => {
-    const date = new Date(`2024-${month}-01`);
-    return date.toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase());
-  };
+    const date = new Date(`2024-${month}-01`)
+    return date.toLocaleString('pt-BR', { month: 'long' }).replace(/^\w/, c => c.toUpperCase())
+  }
 
   const formatValue = (value: number) => {
-    const absValue = Math.abs(value);
-    if (absValue === 0) return '0%';
-    if (absValue >= 100) return `${value.toFixed(0)}%`;
-    if (absValue < 0.1) return `${value.toFixed(3)}%`;
-    return `${value.toFixed(2)}%`;
-  };
+    const absValue = Math.abs(value)
+    if (absValue === 0) return '0%'
+    if (absValue >= 100) return `${value.toFixed(0)}%`
+    if (absValue < 0.1) return `${value.toFixed(3)}%`
+    return `${value.toFixed(2)}%`
+  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -29,13 +29,12 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
             <span className="text-lg font-bold text-blue-600">
               {formatValue(payload[0].value)}
             </span>
-            <span className="text-xs text-gray-500">variação</span>
           </div>
         </div>
-      );
+      )
     }
-    return null;
-  };
+    return null
+  }
 
   return (
     <div className="w-full h-[400px] md:h-[500px] p-4 pb-16 bg-white rounded-xl shadow-sm">
@@ -106,6 +105,5 @@ export default function EconomicIndicatorGraph({ indicator }: EconomicIndicatorG
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }
-
