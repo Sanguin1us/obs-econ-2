@@ -5,7 +5,8 @@ import { useMemo } from "react"
 
 export default function VisualizarDadosPage() {
   const params = useParams()
-  const datasetName = decodeURIComponent(params.dataset)
+  const datasetParam = Array.isArray(params.dataset) ? params.dataset[0] : params.dataset || ""
+  const datasetName = decodeURIComponent(datasetParam)
   const data = useMemo(() => {
     return [
       { month: "Jan", value: 10 },
@@ -38,11 +39,11 @@ export default function VisualizarDadosPage() {
             <YAxis tick={{ fill: '#4B5563' }} />
             <Tooltip />
             <Line 
-              type="monotone" 
-              dataKey="value" 
-              stroke="#2563eb" 
-              strokeWidth={3} 
-              activeDot={{ r: 6 }} 
+              type="monotone"
+              dataKey="value"
+              stroke="#2563eb"
+              strokeWidth={3}
+              activeDot={{ r: 6 }}
             />
           </LineChart>
         </ResponsiveContainer>
