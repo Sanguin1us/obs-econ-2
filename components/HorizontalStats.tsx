@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useMemo, useEffect } from "react"
+import React, { useState, useMemo, useEffect, useRef } from "react"
 import { TrendingUp, Users, Building, BadgeDollarSign, ChevronUp, ChevronDown, X, Pause, Play } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 
@@ -32,16 +32,22 @@ type AnimatedCounterProps = {
   duration?: number
   prefix?: string
   suffix?: string
+  animate?: boolean
 }
 
 const AnimatedCounter = ({
   end,
   duration = 2000,
   prefix = "",
-  suffix = ""
+  suffix = "",
+  animate = false
 }: AnimatedCounterProps) => {
   const [count, setCount] = useState(0)
+  const [hasAnimated, setHasAnimated] = useState(false)
+
   useEffect(() => {
+    if (!animate || hasAnimated) return
+
     let startTimestamp: number
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp
@@ -49,10 +55,13 @@ const AnimatedCounter = ({
       setCount(Math.floor(progress * end))
       if (progress < 1) {
         window.requestAnimationFrame(step)
+      } else {
+        setHasAnimated(true)
       }
     }
     window.requestAnimationFrame(step)
-  }, [end, duration])
+  }, [animate, hasAnimated, end, duration])
+
   return (
     <div className="text-4xl font-bold text-blue-900">
       {prefix}{count.toLocaleString()}{suffix}
@@ -67,21 +76,25 @@ function generateHistoricalData(
 ): HistoricalDataPoint[] {
   const data: HistoricalDataPoint[] = []
   let currentValue = baseValue
+
   for (let i = months; i >= 0; i--) {
     const date = new Date()
     date.setMonth(date.getMonth() - i)
     const change = (Math.random() - 0.5) * 2 * volatility
     currentValue = currentValue * (1 + change)
+
     const isJanuary = date.getMonth() === 0
     const isFirstOrLast = i === months || i === 0
     const dateLabel = isJanuary || isFirstOrLast
       ? date.toLocaleString("pt-BR", { month: "short", year: "2-digit" })
       : date.toLocaleString("pt-BR", { month: "short" })
+
     data.push({
       date: dateLabel,
       value: Math.round(currentValue * 100) / 100
     })
   }
+
   return data
 }
 
@@ -93,7 +106,13 @@ type StatGraphProps = {
   color?: string
 }
 
-const StatGraph = ({ data, label, prefix = "", suffix = "", color = "#2563eb" }: StatGraphProps) => {
+const StatGraph = ({
+  data,
+  label,
+  prefix = "",
+  suffix = "",
+  color = "#2563eb"
+}: StatGraphProps) => {
   const formatValue = (value: number) => {
     if (value === undefined || value === null) return ""
     const formatted = value.toLocaleString("pt-BR", {
@@ -171,6 +190,7 @@ type StatCardProps = {
   change?: number | string | null
   isSelected: boolean
   onClick: () => void
+  animate?: boolean
 }
 
 const StatCard = ({
@@ -181,9 +201,11 @@ const StatCard = ({
   suffix = "",
   change = null,
   isSelected,
-  onClick
+  onClick,
+  animate = false
 }: StatCardProps) => {
   const isPositive = Number(change) >= 0
+
   return (
     <div
       className={`flex-1 px-6 py-4 border-r last:border-r-0 border-gray-200 cursor-pointer transition-all duration-300 
@@ -194,7 +216,7 @@ const StatCard = ({
         <div className="mb-3 p-3 bg-blue-50 rounded-lg">
           <Icon className="w-8 h-8 text-blue-600" />
         </div>
-        <AnimatedCounter end={value} prefix={prefix} suffix={suffix} />
+        <AnimatedCounter end={value} prefix={prefix} suffix={suffix} animate={animate} />
         <div className="mt-2 text-gray-600 font-medium">{label}</div>
         {change !== null && (
           <div className={`mt-2 flex items-center ${isPositive ? "text-green-500" : "text-red-500"}`}>
@@ -212,6 +234,24 @@ const StatCard = ({
 export default function HorizontalStats() {
   const [selectedStat, setSelectedStat] = useState<string | null>(null)
   const [isAutoRotating, setIsAutoRotating] = useState(true)
+  const [animateNumbers, setAnimateNumbers] = useState(false)
+
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+  // Observe when the container scrolls into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setAnimateNumbers(true)
+      },
+      { threshold: 0.2 }
+    )
+    if (containerRef.current) observer.observe(containerRef.current)
+    return () => {
+      if (containerRef.current) observer.unobserve(containerRef.current)
+    }
+  }, [])
+
   const stats: StatData[] = useMemo(() => {
     const statDefinitions: StatDefinition[] = [
       {
@@ -266,6 +306,7 @@ export default function HorizontalStats() {
     })
   }, [])
 
+  // Automatically rotate selectedStat
   useEffect(() => {
     if (!isAutoRotating) return
     const rotateStats = () => {
@@ -290,7 +331,7 @@ export default function HorizontalStats() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div ref={containerRef} className="max-w-6xl mx-auto p-6">
       <div className="bg-white rounded-xl shadow-lg">
         <div className="flex flex-wrap md:flex-nowrap divide-y md:divide-y-0 md:divide-x divide-gray-200">
           {stats.map((stat) => (
@@ -304,6 +345,7 @@ export default function HorizontalStats() {
               change={stat.change}
               isSelected={selectedStat === stat.id}
               onClick={() => handleStatClick(stat.id)}
+              animate={animateNumbers}
             />
           ))}
         </div>
