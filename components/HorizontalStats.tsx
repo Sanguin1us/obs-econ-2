@@ -3,13 +3,47 @@ import React, { useState, useMemo, useEffect } from "react"
 import { TrendingUp, Users, Building, BadgeDollarSign, ChevronUp, ChevronDown, X, Pause, Play } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 
+type HistoricalDataPoint = {
+  date: string
+  value: number
+}
+
+type StatDefinition = {
+  id: string
+  icon: React.ElementType
+  label: string
+  baseValue: number
+  prefix?: string
+  suffix?: string
+  volatility?: number
+  color?: string
+}
+
+type StatData = StatDefinition & {
+  value: number
+  change: string
+  historicalData: HistoricalDataPoint[]
+}
+
 const ROTATION_INTERVAL = 5000
 
-const AnimatedCounter = ({ end, duration = 2000, prefix = "", suffix = "" }) => {
+type AnimatedCounterProps = {
+  end: number
+  duration?: number
+  prefix?: string
+  suffix?: string
+}
+
+const AnimatedCounter = ({
+  end,
+  duration = 2000,
+  prefix = "",
+  suffix = ""
+}: AnimatedCounterProps) => {
   const [count, setCount] = useState(0)
   useEffect(() => {
-    let startTimestamp
-    const step = (timestamp) => {
+    let startTimestamp: number
+    const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp
       const progress = Math.min((timestamp - startTimestamp) / duration, 1)
       setCount(Math.floor(progress * end))
@@ -26,8 +60,12 @@ const AnimatedCounter = ({ end, duration = 2000, prefix = "", suffix = "" }) => 
   )
 }
 
-const generateHistoricalData = (months = 12, baseValue, volatility = 0.1) => {
-  const data = []
+function generateHistoricalData(
+  months = 12,
+  baseValue: number,
+  volatility = 0.1
+): HistoricalDataPoint[] {
+  const data: HistoricalDataPoint[] = []
   let currentValue = baseValue
   for (let i = months; i >= 0; i--) {
     const date = new Date()
@@ -47,13 +85,33 @@ const generateHistoricalData = (months = 12, baseValue, volatility = 0.1) => {
   return data
 }
 
-const StatGraph = ({ data, label, prefix = "", suffix = "", color = "#2563eb" }) => {
-  const formatValue = (value) => {
+type StatGraphProps = {
+  data: HistoricalDataPoint[]
+  label: string
+  prefix?: string
+  suffix?: string
+  color?: string
+}
+
+const StatGraph = ({ data, label, prefix = "", suffix = "", color = "#2563eb" }: StatGraphProps) => {
+  const formatValue = (value: number) => {
     if (value === undefined || value === null) return ""
-    const formatted = value.toLocaleString("pt-BR", { maximumFractionDigits: 2, minimumFractionDigits: 0 })
+    const formatted = value.toLocaleString("pt-BR", {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 0
+    })
     return `${prefix}${formatted}${suffix}`
   }
-  const CustomTooltip = ({ active, payload, label: tooltipLabel }) => {
+
+  const CustomTooltip = ({
+    active,
+    payload,
+    label: tooltipLabel
+  }: {
+    active?: boolean
+    payload?: any[]
+    label?: string
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 shadow-lg rounded-lg border border-gray-100">
@@ -66,6 +124,7 @@ const StatGraph = ({ data, label, prefix = "", suffix = "", color = "#2563eb" })
     }
     return null
   }
+
   return (
     <div className="w-full h-96">
       <ResponsiveContainer width="100%" height="100%">
@@ -103,8 +162,28 @@ const StatGraph = ({ data, label, prefix = "", suffix = "", color = "#2563eb" })
   )
 }
 
-const StatCard = ({ icon: Icon, label, value, prefix = "", suffix = "", change = null, isSelected, onClick }) => {
-  const isPositive = change >= 0
+type StatCardProps = {
+  icon: React.ElementType
+  label: string
+  value: number
+  prefix?: string
+  suffix?: string
+  change?: number | string | null
+  isSelected: boolean
+  onClick: () => void
+}
+
+const StatCard = ({
+  icon: Icon,
+  label,
+  value,
+  prefix = "",
+  suffix = "",
+  change = null,
+  isSelected,
+  onClick
+}: StatCardProps) => {
+  const isPositive = Number(change) >= 0
   return (
     <div
       className={`flex-1 px-6 py-4 border-r last:border-r-0 border-gray-200 cursor-pointer transition-all duration-300 
@@ -116,14 +195,12 @@ const StatCard = ({ icon: Icon, label, value, prefix = "", suffix = "", change =
           <Icon className="w-8 h-8 text-blue-600" />
         </div>
         <AnimatedCounter end={value} prefix={prefix} suffix={suffix} />
-        <div className="mt-2 text-gray-600 font-medium">
-          {label}
-        </div>
+        <div className="mt-2 text-gray-600 font-medium">{label}</div>
         {change !== null && (
           <div className={`mt-2 flex items-center ${isPositive ? "text-green-500" : "text-red-500"}`}>
             {isPositive ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             <span className="ml-1 text-sm font-medium">
-              {Math.abs(change).toFixed(1)}%
+              {Math.abs(Number(change)).toFixed(1)}%
             </span>
           </div>
         )}
@@ -133,10 +210,10 @@ const StatCard = ({ icon: Icon, label, value, prefix = "", suffix = "", change =
 }
 
 export default function HorizontalStats() {
-  const [selectedStat, setSelectedStat] = useState(null)
+  const [selectedStat, setSelectedStat] = useState<string | null>(null)
   const [isAutoRotating, setIsAutoRotating] = useState(true)
-  const stats = useMemo(() => {
-    const statDefinitions = [
+  const stats: StatData[] = useMemo(() => {
+    const statDefinitions: StatDefinition[] = [
       {
         id: "pib",
         icon: TrendingUp,
@@ -175,7 +252,7 @@ export default function HorizontalStats() {
         color: "#DC2626"
       }
     ]
-    return statDefinitions.map(stat => {
+    return statDefinitions.map((stat) => {
       const historicalData = generateHistoricalData(12, stat.baseValue, stat.volatility)
       const lastValue = historicalData[historicalData.length - 1].value
       const firstValue = historicalData[0].value
@@ -188,12 +265,13 @@ export default function HorizontalStats() {
       }
     })
   }, [])
+
   useEffect(() => {
     if (!isAutoRotating) return
     const rotateStats = () => {
-      setSelectedStat(current => {
+      setSelectedStat((current) => {
         if (!current) return stats[0].id
-        const currentIndex = stats.findIndex(s => s.id === current)
+        const currentIndex = stats.findIndex((s) => s.id === current)
         return stats[(currentIndex + 1) % stats.length].id
       })
     }
@@ -203,19 +281,27 @@ export default function HorizontalStats() {
     const interval = setInterval(rotateStats, ROTATION_INTERVAL)
     return () => clearInterval(interval)
   }, [isAutoRotating, stats, selectedStat])
-  const selectedStatData = selectedStat ? stats.find(s => s.id === selectedStat) : null
-  const handleStatClick = (statId) => {
+
+  const selectedStatData = selectedStat ? stats.find((s) => s.id === selectedStat) : null
+
+  const handleStatClick = (statId: string) => {
     setSelectedStat(statId)
     setIsAutoRotating(false)
   }
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="bg-white rounded-xl shadow-lg">
         <div className="flex flex-wrap md:flex-nowrap divide-y md:divide-y-0 md:divide-x divide-gray-200">
-          {stats.map(stat => (
+          {stats.map((stat) => (
             <StatCard
               key={stat.id}
-              {...stat}
+              icon={stat.icon}
+              label={stat.label}
+              value={stat.value}
+              prefix={stat.prefix}
+              suffix={stat.suffix}
+              change={stat.change}
               isSelected={selectedStat === stat.id}
               onClick={() => handleStatClick(stat.id)}
             />
@@ -232,7 +318,11 @@ export default function HorizontalStats() {
                   onClick={() => setIsAutoRotating(!isAutoRotating)}
                   className="p-2 hover:bg-gray-200 rounded-full transition-colors"
                 >
-                  {isAutoRotating ? <Pause className="w-5 h-5 text-gray-500" /> : <Play className="w-5 h-5 text-gray-500" />}
+                  {isAutoRotating ? (
+                    <Pause className="w-5 h-5 text-gray-500" />
+                  ) : (
+                    <Play className="w-5 h-5 text-gray-500" />
+                  )}
                 </button>
                 <button
                   onClick={() => {
