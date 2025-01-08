@@ -37,7 +37,7 @@ type AnimatedCounterProps = {
 
 const AnimatedCounter = ({
   end,
-  duration = 2000,
+  duration = 3200,
   prefix = "",
   suffix = "",
   animate = false
