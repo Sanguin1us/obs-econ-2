@@ -48,10 +48,10 @@ const AnimatedCounter = ({
 }: AnimatedCounterProps) => {
   const [count, setCount] = useState(0)
   const [hasAnimated, setHasAnimated] = useState(false)
-  
+
   useEffect(() => {
     if (!animate || hasAnimated) return
-    
+
     const totalDuration = duration * ANIMATION_MULTIPLIER
     let startTimestamp: number
 
@@ -190,7 +190,7 @@ const StatGraph = ({
             activeDot={{ r: 6, fill: color, stroke: "#fff", strokeWidth: 2 }}
             isAnimationActive={true}
             animationDuration={LINE_CHART_ANIMATION_DURATION}
-            animationEasing="easeInOut"
+            animationEasing="ease-in-out"
           />
         </LineChart>
       </ResponsiveContainer>
