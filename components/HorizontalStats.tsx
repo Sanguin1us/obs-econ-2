@@ -26,6 +26,10 @@ type StatData = StatDefinition & {
 }
 
 const ROTATION_INTERVAL = 5000
+const BASE_DURATION = 2000
+const ANIMATION_MULTIPLIER = 1.75
+const FINAL_DURATION = Math.floor(BASE_DURATION * ANIMATION_MULTIPLIER)
+const LINE_CHART_ANIMATION_DURATION = FINAL_DURATION // Recharts line animation
 
 type AnimatedCounterProps = {
   end: number
@@ -37,22 +41,29 @@ type AnimatedCounterProps = {
 
 const AnimatedCounter = ({
   end,
-  duration = 3200,
+  duration = BASE_DURATION,
   prefix = "",
   suffix = "",
   animate = false
 }: AnimatedCounterProps) => {
   const [count, setCount] = useState(0)
   const [hasAnimated, setHasAnimated] = useState(false)
-
+  
   useEffect(() => {
     if (!animate || hasAnimated) return
-
+    
+    const totalDuration = duration * ANIMATION_MULTIPLIER
     let startTimestamp: number
+
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1)
-      setCount(Math.floor(progress * end))
+      const rawProgress = (timestamp - startTimestamp) / totalDuration
+      const progress = Math.min(rawProgress, 1)
+
+      // Cosine interpolation: smoother step from 0 to 1
+      const eased = (1 - Math.cos(Math.PI * progress)) / 2
+      setCount(Math.floor(end * eased))
+
       if (progress < 1) {
         window.requestAnimationFrame(step)
       } else {
@@ -147,7 +158,10 @@ const StatGraph = ({
   return (
     <div className="w-full h-96">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
+        <LineChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 30 }}
+        >
           <XAxis
             dataKey="date"
             tick={{ fill: "#6B7280", fontSize: 12 }}
@@ -174,6 +188,9 @@ const StatGraph = ({
             strokeWidth={3}
             dot={false}
             activeDot={{ r: 6, fill: color, stroke: "#fff", strokeWidth: 2 }}
+            isAnimationActive={true}
+            animationDuration={LINE_CHART_ANIMATION_DURATION}
+            animationEasing="easeInOut"
           />
         </LineChart>
       </ResponsiveContainer>
@@ -235,7 +252,6 @@ export default function HorizontalStats() {
   const [selectedStat, setSelectedStat] = useState<string | null>(null)
   const [isAutoRotating, setIsAutoRotating] = useState(true)
   const [animateNumbers, setAnimateNumbers] = useState(false)
-
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   // Observe when the container scrolls into view
