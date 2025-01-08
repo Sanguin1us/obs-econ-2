@@ -1,0 +1,15 @@
+.imageTrack {
+    display: flex;
+    gap: 4vmin;
+    position: absolute;
+    left: 50%;
+    transform: translate(0%, -50%);
+    user-select: none;
+    width: max-content;
+  }
+  .image {
+    width: 40vmin;
+    height: 56vmin;
+    object-fit: cover;
+    object-position: 100% center;
+  }
