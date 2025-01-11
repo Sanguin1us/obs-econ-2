@@ -333,10 +333,10 @@ export default function HorizontalStats() {
         baseValue: 300, // baseline
         isPercentage: false,
         isInverted: false,
-        description: "Soma de todos os bens e serviços finais produzidos, em bilhões de reais.",
+        description: "Soma de todos os bens e serviços finais produzidos.",
         color: "#2563eb",
         prefix: "R$",
-        suffix: " Bilhões"
+        suffix: " B"
       },
       {
         id: "empregos",
@@ -345,7 +345,7 @@ export default function HorizontalStats() {
         baseValue: 45000,
         isPercentage: false,
         isInverted: false,
-        description: "Número estimado de novos empregos criados no período.",
+        description: "Número acumulado de novos empregos criados no período.",
         color: "#059669"
       },
       {
