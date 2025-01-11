@@ -333,10 +333,10 @@ export default function HorizontalStats() {
         baseValue: 300, // baseline
         isPercentage: false,
         isInverted: false,
-        description: "Soma de todos os bens e serviços finais produzidos.",
+        description: "Produto Interno Bruto dos últimos 12 meses, conforme calculado pelo IBGE.",
         color: "#2563eb",
-        prefix: "R$",
-        suffix: " B"
+        prefix: "R$ ",
+        suffix: "B"
       },
       {
         id: "empregos",
@@ -355,7 +355,7 @@ export default function HorizontalStats() {
         baseValue: 9,
         isPercentage: true,
         isInverted: true, // up => red
-        description: "Taxa de desemprego em % da força de trabalho (12 meses).",
+        description: "Taxa de desemprego em porcentagem da força de trabalho.",
         color: "#DC2626"
       },
       {
