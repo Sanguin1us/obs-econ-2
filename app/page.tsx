@@ -1,24 +1,24 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
-import { FileText, TrendingUp, Users } from "lucide-react"
+import { Newspaper, FileCog, Library } from "lucide-react"
 import HorizontalStats from "@/components/HorizontalStats"
 
 const publicationTypes = [
   {
-    icon: FileText,
+    icon: Newspaper,
     title: "Boletim Econômico",
     category: "BOLETIM ECONÔMICO",
     description: "Publicação periódica com a análise da conjuntura macroeconômica do Rio de Janeiro."
   },
   {
-    icon: TrendingUp,
+    icon: FileCog,
     title: "Notas Técnicas",
     category: "NOTAS TÉCNICAS",
     description: "Documentos elaborados pela equipe técnica da SMDEIS com o objetivo de embasar a tomada de decisão dos gestores."
   },
   {
-    icon: Users,
+    icon: Library,
     title: "Estudos Especiais",
     category: "ESTUDOS ESPECIAIS",
     description: "Análises acerca de temas que impactam no desenvolvimento econômico da cidade, ajudando na criação de políticas públicas."
@@ -41,7 +41,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-blue-900/50 backdrop-brightness-75 z-10"></div>
         <div className="relative z-20 text-center text-white px-6 md:px-8 animate-fade-in-up">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Observatório Econômico</h1>
-          <p className="text-xl md:text-2xl mb-10">Sua fonte de insights econômicos abrangentes e dados</p>
+          <p className="text-xl md:text-2xl mb-10">A economia do Rio em números</p>
           <Link
             href="/publicacoes"
             className="mt-10 inline-block bg-white text-blue-900 px-8 py-4 rounded-md font-semibold hover:bg-blue-100 transition-colors"

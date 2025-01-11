@@ -8,7 +8,9 @@ import {
   X,
   Pause,
   Play,
-  Info
+  Info,
+  Briefcase,
+  Tag
 } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
 
@@ -21,6 +23,7 @@ type StatDefinition = {
   id: string
   icon: React.ElementType
   label: string
+  fullLabel?: string  // New property for the full label
   baseValue: number
   isPercentage?: boolean // true if we display "%" as the suffix
   isInverted?: boolean  // true if "up" is red and "down" is green
@@ -329,7 +332,8 @@ export default function HorizontalStats() {
       {
         id: "pib",
         icon: TrendingUp,
-        label: "PIB (12 meses)",
+        label: "PIB",
+        fullLabel: "PIB (12 meses)",
         baseValue: 300, // baseline
         isPercentage: false,
         isInverted: false,
@@ -341,7 +345,8 @@ export default function HorizontalStats() {
       {
         id: "empregos",
         icon: Users,
-        label: "Novos Empregos (acumulado)",
+        label: "Novos Empregos",
+        fullLabel: "Novos Empregos (acumulado)",
         baseValue: 45000,
         isPercentage: false,
         isInverted: false,
@@ -350,7 +355,7 @@ export default function HorizontalStats() {
       },
       {
         id: "desemprego",
-        icon: Users,
+        icon: Briefcase,
         label: "Desemprego",
         baseValue: 9,
         isPercentage: true,
@@ -360,7 +365,7 @@ export default function HorizontalStats() {
       },
       {
         id: "inflacao",
-        icon: TrendingUp,
+        icon: Tag,
         label: "Inflação",
         baseValue: 3,
         isPercentage: true,
@@ -438,7 +443,7 @@ export default function HorizontalStats() {
             <div className="p-4 bg-gray-50 flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-semibold text-gray-700">
-                  Evolução: {selectedStatData.label}
+                  Evolução: {selectedStatData.fullLabel || selectedStatData.label}
                 </h3>
                 {/* Info icon (hover tooltip) */}
                 <div className="relative group inline-block">
