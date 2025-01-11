@@ -22,15 +22,17 @@ type StatDefinition = {
   icon: React.ElementType
   label: string
   baseValue: number
-  isPercentage?: boolean // true if we display suffix '%'
-  isInverted?: boolean // true if "up" is red and "down" is green
-  description?: string  // will be shown in the hover tooltip near "Evolução"
+  isPercentage?: boolean // true if we display "%" as the suffix
+  isInverted?: boolean  // true if "up" is red and "down" is green
+  description?: string  // shown in hover tooltip near "Evolução"
   color?: string
+  prefix?: string
+  suffix?: string
 }
 
 type StatData = StatDefinition & {
   value: number
-  change: number // We'll store the absolute difference (lastValue - firstValue)
+  change: number // we'll store the absolute difference (lastValue - firstValue)
   historicalData: HistoricalDataPoint[]
 }
 
@@ -44,6 +46,8 @@ type AnimatedCounterProps = {
   end: number
   duration?: number
   isPercentage?: boolean
+  prefix?: string
+  suffix?: string
   animate?: boolean
 }
 
@@ -51,6 +55,8 @@ const AnimatedCounter = ({
   end,
   duration = BASE_DURATION,
   isPercentage = false,
+  prefix = "",
+  suffix = "",
   animate = false
 }: AnimatedCounterProps) => {
   const [count, setCount] = useState(0)
@@ -67,7 +73,7 @@ const AnimatedCounter = ({
       const rawProgress = (timestamp - startTimestamp) / totalDuration
       const progress = Math.min(rawProgress, 1)
 
-      // Cosine interpolation for a smoother step from 0 to 1
+      // Cosine interpolation for a smoother step
       const eased = (1 - Math.cos(Math.PI * progress)) / 2
       setCount(end * eased)
 
@@ -80,18 +86,20 @@ const AnimatedCounter = ({
     window.requestAnimationFrame(step)
   }, [animate, hasAnimated, end, duration])
 
+  const displayNumber = isPercentage
+    ? `${count.toFixed(1)}%`
+    : `${prefix}${Math.round(count).toLocaleString()}${suffix}`
+
   return (
     <div className="text-4xl font-bold text-blue-900">
-      {isPercentage
-        ? `${count.toFixed(1)}%`
-        : Math.round(count).toLocaleString()}
+      {displayNumber}
     </div>
   )
 }
 
 /**
  * Generate random data for 12 months based on baseValue.
- * Each month fluctuates around baseValue by up to 'volatility' fraction.
+ * Each month fluctuates by up to 'volatility' fraction around baseValue.
  */
 function generateHistoricalData(
   months = 12,
@@ -126,6 +134,8 @@ type StatGraphProps = {
   data: HistoricalDataPoint[]
   label: string
   isPercentage?: boolean
+  prefix?: string
+  suffix?: string
   color?: string
 }
 
@@ -133,11 +143,17 @@ const StatGraph = ({
   data,
   label,
   isPercentage,
+  prefix,
+  suffix,
   color = "#2563eb"
 }: StatGraphProps) => {
   const formatValue = (value: number) => {
     if (value === undefined || value === null) return ""
-    return isPercentage ? `${value.toFixed(1)}%` : value.toLocaleString()
+    if (isPercentage) {
+      return `${value.toFixed(1)}%`
+    } else {
+      return `${prefix ?? ""}${Math.round(value).toLocaleString()}${suffix ?? ""}`
+    }
   }
 
   const CustomTooltip = ({
@@ -212,15 +228,13 @@ type StatCardProps = {
   change: number
   isPercentage?: boolean
   isInverted?: boolean
+  prefix?: string
+  suffix?: string
   isSelected: boolean
   onClick: () => void
   animate?: boolean
 }
 
-/**
- * Renders each stat as a card with an animated number and a small
- * red/green arrow that indicates an absolute difference from 12 months prior.
- */
 const StatCard = ({
   icon: Icon,
   label,
@@ -228,21 +242,27 @@ const StatCard = ({
   change,
   isPercentage = false,
   isInverted = false,
+  prefix = "",
+  suffix = "",
   isSelected,
   onClick,
   animate = false
 }: StatCardProps) => {
-  // The "isInverted" property means that if "change" is positive => color is RED, negative => color is GREEN
-  // The usual behavior is the opposite.
+  /**
+   * "isInverted" means if "change" is positive => color is RED, negative => color is GREEN
+   * Otherwise (typical case), positive => GREEN, negative => RED
+   */
   const isPositiveChange = change >= 0
   let arrowColorClass = isPositiveChange ? "text-green-500" : "text-red-500"
   if (isInverted) {
     arrowColorClass = isPositiveChange ? "text-red-500" : "text-green-500"
   }
 
+  // Format the absolute difference
+  // If it's percentage => "1.0%", else => "R$400 Bilhões"
   const displayChange = isPercentage
     ? `${Math.abs(change).toFixed(1)}%`
-    : Math.abs(Math.round(change)).toLocaleString()
+    : `${prefix}${Math.abs(Math.round(change)).toLocaleString()}${suffix}`
 
   return (
     <div
@@ -254,7 +274,13 @@ const StatCard = ({
         <div className="mb-3 p-3 bg-blue-50 rounded-lg">
           <Icon className="w-8 h-8 text-blue-600" />
         </div>
-        <AnimatedCounter end={value} animate={animate} isPercentage={isPercentage} />
+        <AnimatedCounter
+          end={value}
+          animate={animate}
+          isPercentage={isPercentage}
+          prefix={prefix}
+          suffix={suffix}
+        />
         <div className="mt-2 text-gray-600 font-medium">{label}</div>
         <div className={`mt-2 flex items-center ${arrowColorClass}`}>
           {isPositiveChange ? (
@@ -277,7 +303,7 @@ export default function HorizontalStats() {
   const [animateNumbers, setAnimateNumbers] = useState(false)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
-  // Observe when the container scrolls into view to trigger number animations
+  // Observe container for animation trigger
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -292,52 +318,54 @@ export default function HorizontalStats() {
   }, [])
 
   /**
-   * We now have 4 categories: 
-   *   1) PIB Anual (baseValue in billions, not a percentage, "up" = green),
-   *   2) Novos Empregos (not a percentage, "up" = green),
-   *   3) Desemprego (percentage, "up" = red => isInverted = true),
-   *   4) Inflação (percentage, "up" = red => isInverted = true).
+   * Four categories:
+   *  1) PIB (12 meses) => display "R$xxx Bilhões" (+ up => green)
+   *  2) Novos Empregos (acumulado) => numeric count, up => green
+   *  3) Desemprego => % with up => red (inverted)
+   *  4) Inflação => % with up => red (inverted)
    */
   const stats: StatData[] = useMemo(() => {
     const statDefinitions: StatDefinition[] = [
       {
         id: "pib",
         icon: TrendingUp,
-        label: "PIB Anual",
-        baseValue: 300, // arbitrary baseline
+        label: "PIB (12 meses)",
+        baseValue: 300, // baseline
         isPercentage: false,
         isInverted: false,
-        description: "Produto Interno Bruto anual, em bilhões de reais.",
-        color: "#2563eb"
+        description: "Soma de todos os bens e serviços finais produzidos, em bilhões de reais.",
+        color: "#2563eb",
+        prefix: "R$",
+        suffix: " Bilhões"
       },
       {
         id: "empregos",
         icon: Users,
-        label: "Novos Empregos",
-        baseValue: 45000, // arbitrary baseline
+        label: "Novos Empregos (acumulado)",
+        baseValue: 45000,
         isPercentage: false,
         isInverted: false,
-        description: "Número estimado de novos empregos criados no último ano.",
+        description: "Número estimado de novos empregos criados no período.",
         color: "#059669"
       },
       {
         id: "desemprego",
         icon: Users,
         label: "Desemprego",
-        baseValue: 9, // start at 9%
+        baseValue: 9,
         isPercentage: true,
-        isInverted: true,
-        description: "Taxa de desemprego medida como porcentagem da força de trabalho.",
+        isInverted: true, // up => red
+        description: "Taxa de desemprego em % da força de trabalho (12 meses).",
         color: "#DC2626"
       },
       {
         id: "inflacao",
         icon: TrendingUp,
         label: "Inflação",
-        baseValue: 3, // start at 3%
+        baseValue: 3,
         isPercentage: true,
-        isInverted: true,
-        description: "Variação percentual do índice de preços ao consumidor em 12 meses.",
+        isInverted: true, // up => red
+        description: "Variação de preços medida em 12 meses (IPC).",
         color: "#7C3AED"
       }
     ]
@@ -346,7 +374,7 @@ export default function HorizontalStats() {
       const historicalData = generateHistoricalData(12, stat.baseValue, 0.08)
       const lastValue = historicalData[historicalData.length - 1].value
       const firstValue = historicalData[0].value
-      const change = lastValue - firstValue // ABSOLUTE difference
+      const change = lastValue - firstValue // absolute difference
 
       return {
         ...stat,
@@ -357,7 +385,7 @@ export default function HorizontalStats() {
     })
   }, [])
 
-  // Automatically rotate selectedStat
+  // Automatically rotate the selectedStat
   useEffect(() => {
     if (!isAutoRotating) return
     const rotateStats = () => {
@@ -395,6 +423,8 @@ export default function HorizontalStats() {
               change={stat.change}
               isPercentage={stat.isPercentage}
               isInverted={stat.isInverted}
+              prefix={stat.prefix}
+              suffix={stat.suffix}
               isSelected={selectedStat === stat.id}
               onClick={() => handleStatClick(stat.id)}
               animate={animateNumbers}
@@ -410,7 +440,7 @@ export default function HorizontalStats() {
                 <h3 className="text-lg font-semibold text-gray-700">
                   Evolução: {selectedStatData.label}
                 </h3>
-                {/* Info tooltip for explanation */}
+                {/* Info icon (hover tooltip) */}
                 <div className="relative group inline-block">
                   <Info className="w-5 h-5 text-gray-500 cursor-pointer" />
                   <div className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity absolute bg-white border border-gray-200 rounded p-2 text-sm text-gray-700 w-56 z-50 mt-2">
@@ -440,12 +470,13 @@ export default function HorizontalStats() {
                 </button>
               </div>
             </div>
-
             <div className="p-6">
               <StatGraph
                 data={selectedStatData.historicalData}
                 label={selectedStatData.label}
                 isPercentage={selectedStatData.isPercentage}
+                prefix={selectedStatData.prefix}
+                suffix={selectedStatData.suffix}
                 color={selectedStatData.color}
               />
             </div>
