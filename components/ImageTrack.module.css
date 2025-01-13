@@ -1,15 +1,36 @@
 .imageTrack {
-    display: flex;
-    gap: 4vmin;
-    position: absolute;
-    left: 50%;
-    transform: translate(0%, -50%);
-    user-select: none;
-    width: max-content;
-  }
-  .image {
-    width: 40vmin;
-    height: 56vmin;
-    object-fit: cover;
-    object-position: 100% center;
-  }
+  display: flex;
+  gap: 4vmin;
+  position: absolute;
+  left: 50%;
+  transform: translate(0%, -50%);
+  user-select: none;
+  width: max-content;
+}
+
+.imageCard {
+  position: relative;
+}
+
+.image {
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  transform: translateY(100%);
+  padding: 1rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.imageCard:hover .overlay {
+  transform: translateY(0);
+}
