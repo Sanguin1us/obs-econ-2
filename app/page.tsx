@@ -4,6 +4,10 @@ import Link from "next/link"
 import { Newspaper, FileCog, Library } from "lucide-react"
 import HorizontalStats from "@/components/HorizontalStats"
 
+// 1. ADD THESE IMPORTS:
+import { useState } from "react"
+import { TextLoop } from "@/components/core/text-loop"
+
 const publicationTypes = [
   {
     icon: Newspaper,
@@ -26,6 +30,16 @@ const publicationTypes = [
 ]
 
 export default function Home() {
+  // 2. SETUP STATE FOR HANDLING ACTIVE LINK:
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // 3. TEXT/ROUTE OPTIONS FOR THE LOOP:
+  const exploreOptions = [
+    { label: "Publicações", href: "/publicacoes" },
+    { label: "Dados", href: "/dados" },
+    { label: "Projetos", href: "/projetos" },
+  ]
+
   return (
     <>
       <section className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] flex items-center justify-center overflow-hidden">
@@ -42,14 +56,37 @@ export default function Home() {
         <div className="relative z-20 text-center text-white px-6 md:px-8 animate-fade-in-up">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Observatório Econômico</h1>
           <p className="text-xl md:text-2xl mb-10">A economia do Rio em números</p>
+
+          {/* 4. BUTTON WITH TEXT-LOOP */}
           <Link
-            href="/publicacoes"
-            className="mt-10 inline-block bg-white text-blue-900 px-8 py-4 rounded-md font-semibold hover:bg-blue-100 transition-colors"
+            href={exploreOptions[currentIndex].href}
+            className="mt-10 inline-block bg-white text-blue-900 px-8 py-4 rounded-md font-semibold hover:bg-blue-100 transition-colors min-w-[240px]"
           >
-            Explorar Publicações
+            Explorar{" "}
+            <TextLoop
+              // optional fancy transition
+              transition={{
+                type: 'spring',
+                stiffness: 900,
+                damping: 80,
+                mass: 10,
+              }}
+              variants={{
+                initial: { y: 20, rotateX: 90, opacity: 0, filter: 'blur(4px)' },
+                animate: { y: 0, rotateX: 0, opacity: 1, filter: 'blur(0px)' },
+                exit: { y: -20, rotateX: -90, opacity: 0, filter: 'blur(4px)' },
+              }}
+              interval={2}
+              onIndexChange={setCurrentIndex} // update link whenever text changes
+            >
+              {exploreOptions.map((item) => (
+                <span key={item.href}>{item.label}</span>
+              ))}
+            </TextLoop>
           </Link>
         </div>
       </section>
+
       <section className="container mx-auto px-6 md:px-8 py-20 md:py-24">
         <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">Nossas Publicações</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
