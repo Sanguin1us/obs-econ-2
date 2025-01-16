@@ -18,15 +18,15 @@ export default function Header() {
 
   return (
     <header className="bg-blue-900 text-white w-full">
-      <div className="flex justify-between items-center w-full py-6 px-4 relative">
+      <div className="flex justify-between items-center w-full py-4 px-4 relative">
         {/* Left Logo (relative positioned) */}
-        <div className="flex-shrink-0 max-w-[750px] w-1/3">
+        <div className="flex-shrink-0 max-w-[600px] w-1/3">
           <PreloadLink href="/">
             <Image
               src="/OBSERVATORIO-logo.webp"
               alt="Observatório Econômico"
-              width={750}
-              height={100}
+              width={300}
+              height={40}
               className="object-contain w-full h-auto"
               priority
             />
@@ -40,7 +40,7 @@ export default function Header() {
               <div key={item.name}>
                 <PreloadLink
                   href={item.href}
-                  className="hover:text-blue-200 transition-colors text-xl font-medium px-1 py-1"
+                  className="hover:text-blue-200 transition-colors text-lg font-medium px-1 py-1"
                 >
                   {item.name}
                 </PreloadLink>
@@ -50,12 +50,12 @@ export default function Header() {
         </div>
 
         {/* Right Logo (relative positioned) */}
-        <div className="hidden md:block flex-shrink-0 max-w-[450px] w-1/3">
+        <div className="hidden md:block flex-shrink-0 max-w-[350px] w-1/3">
           <Image
             src="/SMDUE-logo.webp"
             alt="SMDUE"
-            width={450}
-            height={100}
+            width={300}
+            height={40}
             className="object-contain w-full h-auto"
             priority
           />
