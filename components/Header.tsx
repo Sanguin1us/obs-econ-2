@@ -18,9 +18,9 @@ export default function Header() {
 
   return (
     <header className="bg-blue-900 text-white w-full">
-      <div className="flex justify-between items-center w-full py-7 px-2 relative">
+      <div className="flex justify-between items-center w-full py-6 px-2 relative">
         {/* Left Logo (relative positioned) */}
-        <div className="flex-shrink-0 max-w-[800px] w-1/3 flex items-center">
+        <div className="flex-shrink-0 max-w-[800px] w-[30%] flex items-center">
           <PreloadLink href="/">
             <Image
               src="/OBSERVATORIO-logo.webp"
