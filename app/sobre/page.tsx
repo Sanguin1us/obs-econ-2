@@ -9,19 +9,6 @@ export default function Sobre() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-900 to-blue-800 text-white py-24">
-        <div className="absolute inset-0 bg-[url('/rio-skyline.jpg')] opacity-20 bg-cover bg-center" />
-        <div className="container mx-auto px-4 relative">
-          <h1 className="text-5xl font-bold mb-6 max-w-3xl">
-            Observatório Econômico do Rio de Janeiro
-          </h1>
-          <p className="text-xl max-w-2xl leading-relaxed opacity-90">
-            Fornecendo análises econômicas precisas e insights estratégicos para o desenvolvimento sustentável da cidade do Rio de Janeiro.
-          </p>
-        </div>
-      </div>
-
       {/* Mission Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
