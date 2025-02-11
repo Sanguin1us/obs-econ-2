@@ -14,7 +14,7 @@ const sharedData = [
     { month: "Sep", value: 20 },
     { month: "Oct", value: 22 },
     { month: "Nov", value: 17 },
-    { month: "Dec", value: 25 },
+    { month: "Dec", value: 24 },
   ]
   
   export const datasetData: Record<string, { month: string; value: number }[]> = {
