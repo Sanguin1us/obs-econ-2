@@ -1,6 +1,7 @@
 "use client"
 import { useState, useRef, useEffect } from "react"
 import { subdepartments, leadership } from "@/lib/teamData"
+import Image from "next/image"
 
 export default function Sobre() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -43,14 +44,10 @@ export default function Sobre() {
           <h2 className="text-3xl font-bold text-blue-900">Metas Estratégicas</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {strategicGoals.map((item, i) => {
-              const displayValue = animateNumbers && i < 2
-                ? item.target.toString()
-                : item.target
+              const displayValue = animateNumbers && i < 2 ? item.target : item.target
               return (
                 <div key={i} className="bg-white rounded-lg p-6 shadow transition-transform duration-300 hover:scale-105">
-                  <div className="text-4xl font-extrabold text-blue-700 mb-2">
-                    {displayValue}
-                  </div>
+                  <div className="text-4xl font-extrabold text-blue-700 mb-2">{displayValue}</div>
                   <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
                   <p className="text-sm text-gray-500">{item.description}</p>
                 </div>
@@ -59,71 +56,81 @@ export default function Sobre() {
           </div>
         </div>
       </section>
-
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-blue-900 mb-8 text-center">Estrutura Administrativa</h2>
-          <div className="flex justify-center items-center gap-4 mb-8">
+          <div className="flex justify-center mb-8">
             <button
               onClick={() => { setShowLeadership(true); setOpenIndex(null) }}
-              className={`px-4 py-2 rounded-md font-medium transition-colors ${showLeadership ? "bg-blue-900 text-white" : "bg-blue-50 text-blue-900 hover:bg-blue-100"}`}
+              className={`px-6 py-2 border-b-2 ${showLeadership ? "border-blue-900 text-blue-900" : "border-transparent text-gray-500 hover:text-blue-700 hover:border-blue-300"}`}
             >
               Liderança
             </button>
             <button
               onClick={() => { setShowLeadership(false); setOpenIndex(null) }}
-              className={`px-4 py-2 rounded-md font-medium transition-colors ${!showLeadership ? "bg-blue-900 text-white" : "bg-blue-50 text-blue-900 hover:bg-blue-100"}`}
+              className={`px-6 py-2 border-b-2 ${!showLeadership ? "border-blue-900 text-blue-900" : "border-transparent text-gray-500 hover:text-blue-700 hover:border-blue-300"}`}
             >
               Subsecretarias
             </button>
           </div>
           {showLeadership && (
-            <div className="relative overflow-hidden">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up">
-                {leadership.map((leader, index) => (
-                  <div key={index} className="bg-blue-50 rounded-lg shadow relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                    <div className="h-36 bg-gray-200 flex items-center justify-center text-gray-400">No Img</div>
-                    <div className="p-4 space-y-1">
-                      <h3 className="text-lg font-bold text-gray-800">{leader.name}</h3>
-                      <p className="text-blue-600 text-sm">{leader.title}</p>
-                      <p className="text-gray-600 text-sm mt-2 leading-relaxed">{leader.description}</p>
-                    </div>
+            <div className="space-y-8">
+              {leadership.map((leader, index) => (
+                <div key={index} className="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row items-center gap-6">
+                  <div className="w-32 h-32 flex-shrink-0">
+                    <Image src={leader.photoUrl} alt={leader.name} width={128} height={128} className="rounded-full border-2 border-blue-900 object-cover w-full h-full" />
                   </div>
-                ))}
-              </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-800">{leader.name}</h3>
+                    <p className="text-blue-600 text-sm">{leader.title}</p>
+                    <p className="text-gray-600 text-sm mt-2">{leader.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
           {!showLeadership && (
-            <div className="relative overflow-hidden">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up">
-                {subdepartments.map((subdept, idx) => (
-                  <div key={idx} className="bg-blue-50 rounded-lg shadow transition-all duration-300 hover:shadow-lg">
-                    <button
+            <div className="space-y-8">
+              {subdepartments.map((subdept, idx) => (
+                <div key={idx} className="flex">
+                  <div className="relative mr-4">
+                    <div className="w-4 h-4 bg-blue-900 rounded-full"></div>
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-px h-full bg-blue-300"></div>
+                  </div>
+                  <div className="flex-1">
+                    <div
                       onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                      className="w-full px-4 py-3 text-left flex items-center justify-between focus:outline-none"
+                      className="flex items-center justify-between cursor-pointer p-4 bg-blue-50 rounded-lg shadow hover:bg-blue-100 transition-colors"
                     >
                       <div>
-                        <h4 className="text-base font-semibold text-gray-800">{subdept.name}</h4>
+                        <h4 className="text-lg font-semibold text-gray-800">{subdept.name}</h4>
                         <p className="text-xs text-gray-500">{subdept.fullName}</p>
                       </div>
-                      <span className="text-xs font-medium text-blue-600">{subdept.members.length} membros</span>
-                    </button>
+                      <div className="text-blue-600 text-xs flex items-center">
+                        <span>{subdept.members.length} membros</span>
+                        <svg className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${openIndex === idx ? "rotate-180" : "rotate-0"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                      </div>
+                    </div>
                     {openIndex === idx && (
-                      <div className="px-4 py-3 bg-white">
+                      <div className="mt-4 border-l-2 border-blue-300 pl-6 space-y-4">
                         {subdept.members.map((member, i) => (
-                          <div key={i} className="flex items-center gap-3 bg-gray-50 rounded p-2 mb-2 last:mb-0 animate-fade-in transition-all">
-                            <div className="h-10 w-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-500 text-xs">No Img</div>
-                            <div>
+                          <div key={i} className="flex items-center">
+                            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center border border-blue-200 overflow-hidden">
+                              <Image src={member.photoUrl} alt={member.name} width={40} height={40} className="object-cover" />
+                            </div>
+                            <div className="ml-3">
                               <h5 className="text-sm font-semibold text-gray-800">{member.name}</h5>
-                              <p className="text-xs text-gray-600">{member.certification}</p>
+                              <p className="text-xs text-gray-500">{member.certification}</p>
                             </div>
                           </div>
                         ))}
                       </div>
                     )}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
