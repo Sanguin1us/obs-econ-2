@@ -1,69 +1,63 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
+import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"; // Keep this type import
 import useEmblaCarousel from "embla-carousel-react";
 import { Project } from "@/lib/projectsData";
-// Removed ChevronLeft, ChevronRight as buttons are removed
-// import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// --- REMOVED usePrevNextButtons Hook ---
-
-// --- useDotButton Hook (Unchanged) ---
+// --- Helper Hooks (useDotButton - unchanged) ---
 type UseDotButtonType = {
-  selectedIndex: number;
-  scrollSnaps: number[];
-  onDotButtonClick: (index: number) => void;
+    selectedIndex: number;
+    scrollSnaps: number[];
+    onDotButtonClick: (index: number) => void;
 };
 
 export const useDotButton = (
     emblaApi: EmblaCarouselType | undefined
-  ): UseDotButtonType => {
+): UseDotButtonType => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
     const onDotButtonClick = useCallback(
-      (index: number) => {
-        if (!emblaApi) return;
-        emblaApi.scrollTo(index);
-      },
-      [emblaApi]
+        (index: number) => {
+            if (!emblaApi) return;
+            emblaApi.scrollTo(index);
+        },
+        [emblaApi]
     );
 
     const onInit = useCallback((emblaApi: EmblaCarouselType) => {
-      setScrollSnaps(emblaApi.scrollSnapList());
+        setScrollSnaps(emblaApi.scrollSnapList());
     }, []);
 
     const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
+        setSelectedIndex(emblaApi.selectedScrollSnap());
     }, []);
 
     useEffect(() => {
-      if (!emblaApi) return;
-      onInit(emblaApi);
-      onSelect(emblaApi);
-      emblaApi
-        .on("reInit", onInit)
-        .on("reInit", onSelect)
-        .on("select", onSelect);
-      return () => {
-        if (emblaApi) {
-            emblaApi
-            .off("reInit", onInit)
-            .off("reInit", onSelect)
-            .off("select", onSelect);
-        }
-      };
+        if (!emblaApi) return;
+        onInit(emblaApi);
+        onSelect(emblaApi);
+        emblaApi
+            .on("reInit", onInit)
+            .on("reInit", onSelect)
+            .on("select", onSelect);
+        return () => {
+            if (emblaApi) {
+                emblaApi
+                    .off("reInit", onInit)
+                    .off("reInit", onSelect)
+                    .off("select", onSelect);
+            }
+        };
     }, [emblaApi, onInit, onSelect]);
 
     return {
-      selectedIndex,
-      scrollSnaps,
-      onDotButtonClick,
+        selectedIndex,
+        scrollSnaps,
+        onDotButtonClick,
     };
-  };
-// --- END useDotButton Hook ---
-
+};
 
 // --- Constants ---
 const PARALLAX_FACTOR = 0.4;
@@ -77,8 +71,8 @@ type PropType = {
 export default function ProjectCarousel({ projects, options }: PropType) {
   const mergedOptions: EmblaOptionsType = {
        align: 'center',
-       loop: options?.loop,
-       dragFree: options?.dragFree,
+       loop: options?.loop ?? true, // Default loop to true if not provided
+       dragFree: options?.dragFree ?? true, // Default dragFree to true if not provided
        ...(options || {})
    };
   const [emblaRef, emblaApi] = useEmblaCarousel(mergedOptions);
@@ -95,57 +89,69 @@ export default function ProjectCarousel({ projects, options }: PropType) {
     "https://images.unsplash.com/photo-1516681100942-77d8e7f9dd97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
   ];
 
-  // Removed usePrevNextButtons hook call
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
-  // --- setTweenNodes and tweenParallax (Unchanged) ---
-   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
+  const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
       return slideNode.querySelector(".embla__slide__parallax__layer") as HTMLElement;
     });
   }, []);
 
+  // --- UPDATED tweenParallax ---
   const tweenParallax = useCallback(() => {
+    // Updated Guard Clause: Removed check for emblaApi.options
     if (
         !emblaApi || !emblaApi.scrollSnapList || !emblaApi.scrollProgress ||
-        !emblaApi.internalEngine || !emblaApi.options || !tweenNodes.current.length
+        !emblaApi.internalEngine || !tweenNodes.current.length
+        // No !emblaApi.options check needed here
         ) {
         return;
     }
+
     const engine = emblaApi.internalEngine();
     const scrollProgress = emblaApi.scrollProgress();
-    const isLooping = emblaApi.options.loop;
+    // Get loop setting from mergedOptions which is in scope
+    const isLooping = mergedOptions.loop;
+
     emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
         const tweenNode = tweenNodes.current[snapIndex];
         if (!tweenNode) return;
+
         let diffToTarget = scrollSnap - scrollProgress;
+
         if (isLooping) {
             const shortest = engine.location.diffs.shortest(diffToTarget);
             diffToTarget = shortest.diff;
         }
+
         const translate = diffToTarget * (-1 / PARALLAX_FACTOR) * 100;
         tweenNode.style.transform = `translateX(${translate}%)`;
     });
-  }, [emblaApi]);
+  // Dependency array depends only on emblaApi being ready,
+  // mergedOptions.loop doesn't change dynamically during scroll
+  }, [emblaApi, mergedOptions.loop]); // Added mergedOptions.loop for explicit dependency tracking
+  // --- END UPDATED tweenParallax ---
 
   // --- useEffect (Unchanged) ---
   useEffect(() => {
     if (!emblaApi) return;
     setTweenNodes(emblaApi);
-    tweenParallax();
+    tweenParallax(); // Initial call
     const handleScroll = () => tweenParallax();
     const handleResize = () => { setTweenNodes(emblaApi); tweenParallax(); };
     const handleReInit = () => { setTweenNodes(emblaApi); tweenParallax(); };
+
     emblaApi.on("scroll", handleScroll).on("resize", handleResize).on("reInit", handleReInit);
      return () => {
          if (emblaApi) {
              emblaApi.off("scroll", handleScroll).off("resize", handleResize).off("reInit", handleReInit);
          }
      }
+  // Updated dependencies based on tweenParallax change
   }, [emblaApi, setTweenNodes, tweenParallax]);
 
 
-  // --- Return JSX (Removed Arrow Button Container) ---
+  // --- Return JSX (Unchanged structure) ---
   return (
     <div className="relative w-full py-8">
       {/* Header/Text */}
@@ -158,10 +164,8 @@ export default function ProjectCarousel({ projects, options }: PropType) {
           <br className="hidden md:block" />
           impulsionar a economia do Rio de Janeiro.
         </p>
-        {/* Optional: Add drag hint if needed */}
          <div className="flex justify-center items-center space-x-3 text-blue-700 font-medium animate-fade-in text-sm mt-2">
             <span className="text-gray-500">Arraste para explorar</span>
-            {/* You could add generic left/right arrow icons here if desired */}
         </div>
       </div>
 
@@ -173,13 +177,13 @@ export default function ProjectCarousel({ projects, options }: PropType) {
               className="flex-grow-0 flex-shrink-0 basis-full sm:basis-[55%] md:basis-[45%] lg:basis-[35%] xl:basis-[30%] min-w-0 pl-6 relative"
               key={project.id}
             >
-              <div className="overflow-hidden rounded-xl shadow-lg group bg-gray-100 aspect-[16/10] max-h-[60vh] cursor-grab active:cursor-grabbing"> {/* Added cursor styles */}
+              <div className="overflow-hidden rounded-xl shadow-lg group bg-gray-100 aspect-[16/10] max-h-[60vh] cursor-grab active:cursor-grabbing">
                 <div className="embla__slide__parallax h-full w-full">
                   <div className="embla__slide__parallax__layer h-full w-full relative">
                     <Image
                       src={project.imageUrl || placeholderImages[index % placeholderImages.length]}
                       alt={project.title} fill style={{ objectFit: 'cover' }}
-                      className="transition-transform duration-500 ease-out group-hover:scale-110 pointer-events-none" // Added pointer-events-none to image
+                      className="transition-transform duration-500 ease-out group-hover:scale-110 pointer-events-none"
                       priority={index < 3}
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 55vw, (max-width: 1024px) 45vw, (max-width: 1280px) 35vw, 30vw"
                     />
@@ -198,9 +202,7 @@ export default function ProjectCarousel({ projects, options }: PropType) {
         </div>
       </div>
 
-      {/* --- REMOVED Navigation Button Container --- */}
-
-      {/* Dot Indicators (Unchanged) */}
+      {/* Dot Indicators */}
       <div className="flex justify-center space-x-3 pt-6 pb-8">
         {scrollSnaps.map((_, index) => (
           <button key={index} onClick={() => onDotButtonClick(index)}
