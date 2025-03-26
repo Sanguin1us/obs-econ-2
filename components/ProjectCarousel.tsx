@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"; // Keep this type import
+import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { Project } from "@/lib/projectsData";
 
@@ -59,6 +59,7 @@ export const useDotButton = (
     };
 };
 
+
 // --- Constants ---
 const PARALLAX_FACTOR = 0.4;
 
@@ -71,8 +72,8 @@ type PropType = {
 export default function ProjectCarousel({ projects, options }: PropType) {
   const mergedOptions: EmblaOptionsType = {
        align: 'center',
-       loop: options?.loop ?? true, // Default loop to true if not provided
-       dragFree: options?.dragFree ?? true, // Default dragFree to true if not provided
+       loop: options?.loop ?? true,
+       dragFree: options?.dragFree ?? true,
        ...(options || {})
    };
   const [emblaRef, emblaApi] = useEmblaCarousel(mergedOptions);
@@ -81,12 +82,7 @@ export default function ProjectCarousel({ projects, options }: PropType) {
   const placeholderImages = [
     "https://images.unsplash.com/photo-1524781289445-ddf8f5695861?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
     "https://images.unsplash.com/photo-1610194352361-4c81a6a8967e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80",
-    "https://images.unsplash.com/photo-1618202133208-2907bebba9e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    "https://images.unsplash.com/photo-1495805442109-bf1cf975750b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    "https://images.unsplash.com/photo-1548021682-1720ed403a5b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    "https://images.unsplash.com/photo-1496753480864-3e588e0269b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2134&q=80",
-    "https://images.unsplash.com/photo-1613346945084-35cccc812dd5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1759&q=80",
-    "https://images.unsplash.com/photo-1516681100942-77d8e7f9dd97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+    // ... other image URLs
   ];
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
@@ -99,18 +95,18 @@ export default function ProjectCarousel({ projects, options }: PropType) {
 
   // --- UPDATED tweenParallax ---
   const tweenParallax = useCallback(() => {
-    // Updated Guard Clause: Removed check for emblaApi.options
+    // Guard Clause (unchanged)
     if (
         !emblaApi || !emblaApi.scrollSnapList || !emblaApi.scrollProgress ||
-        !emblaApi.internalEngine || !tweenNodes.current.length
-        // No !emblaApi.options check needed here
+        !emblaApi.internalEngine || // Keep internalEngine check if needed elsewhere, otherwise removable
+        !tweenNodes.current.length
         ) {
         return;
     }
 
-    const engine = emblaApi.internalEngine();
+    // Removed direct access to engine if only used for loop calculation
+    // const engine = emblaApi.internalEngine();
     const scrollProgress = emblaApi.scrollProgress();
-    // Get loop setting from mergedOptions which is in scope
     const isLooping = mergedOptions.loop;
 
     emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
@@ -119,24 +115,25 @@ export default function ProjectCarousel({ projects, options }: PropType) {
 
         let diffToTarget = scrollSnap - scrollProgress;
 
+        // --- Reverted Loop Calculation ---
+        // Use simpler manual adjustment for loop parallax
         if (isLooping) {
-            const shortest = engine.location.diffs.shortest(diffToTarget);
-            diffToTarget = shortest.diff;
+            if (diffToTarget > 0.5) diffToTarget -= 1;
+            if (diffToTarget < -0.5) diffToTarget += 1;
         }
+        // --- End Reverted Calculation ---
 
         const translate = diffToTarget * (-1 / PARALLAX_FACTOR) * 100;
         tweenNode.style.transform = `translateX(${translate}%)`;
     });
-  // Dependency array depends only on emblaApi being ready,
-  // mergedOptions.loop doesn't change dynamically during scroll
-  }, [emblaApi, mergedOptions.loop]); // Added mergedOptions.loop for explicit dependency tracking
+  }, [emblaApi, mergedOptions.loop]);
   // --- END UPDATED tweenParallax ---
 
   // --- useEffect (Unchanged) ---
   useEffect(() => {
     if (!emblaApi) return;
     setTweenNodes(emblaApi);
-    tweenParallax(); // Initial call
+    tweenParallax();
     const handleScroll = () => tweenParallax();
     const handleResize = () => { setTweenNodes(emblaApi); tweenParallax(); };
     const handleReInit = () => { setTweenNodes(emblaApi); tweenParallax(); };
@@ -147,7 +144,6 @@ export default function ProjectCarousel({ projects, options }: PropType) {
              emblaApi.off("scroll", handleScroll).off("resize", handleResize).off("reInit", handleReInit);
          }
      }
-  // Updated dependencies based on tweenParallax change
   }, [emblaApi, setTweenNodes, tweenParallax]);
 
 
