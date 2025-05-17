@@ -1,7 +1,7 @@
 "use client"
 import { useParams } from "next/navigation"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { datasetData } from "@/lib/datasetData"
 import { Download } from "lucide-react"
 
@@ -30,6 +30,11 @@ export default function VisualizarDadosPage() {
   // The array of series for this dataset, or ["Principal"] if none is found
   const availableSeries = datasetTimeSeriesMap[datasetName] || ["Principal"]
   const [selectedSeries, setSelectedSeries] = useState(availableSeries[0])
+
+  // Reset selected series whenever dataset changes
+  useEffect(() => {
+    setSelectedSeries(availableSeries[0])
+  }, [datasetName])
 
   // We still store our "placeholder" data in datasetData for simplicity.
   // If you want different data per series, you can store them separately.
