@@ -97,7 +97,7 @@ export default function Sobre() {
           {!showLeadership && (
             <div className="space-y-8">
               {subdepartments.map((subdept, idx) => (
-                <div key={idx} className="border-l-4 border-blue-600 pl-4">
+                <div key={idx} className="pl-4">
                   <button
                     type="button"
                     onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
