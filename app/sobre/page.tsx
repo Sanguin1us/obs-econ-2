@@ -98,9 +98,11 @@ export default function Sobre() {
                     <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-px h-full bg-blue-300"></div>
                   </div>
                   <div className="flex-1">
-                    <div
+                  <button
+                      type="button"
                       onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                      className="flex items-center justify-between cursor-pointer p-4 bg-blue-50 rounded-lg shadow hover:bg-blue-100 transition-colors"
+                      className="w-full flex items-center justify-between p-4 bg-blue-50 rounded-lg shadow hover:bg-blue-100 transition-colors"
+                      aria-expanded={openIndex === idx}
                     >
                       <div>
                         <h4 className="text-lg font-semibold text-gray-800">{subdept.name}</h4>
@@ -112,7 +114,7 @@ export default function Sobre() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                       </div>
-                    </div>
+                    </button>
                     {openIndex === idx && (
                       <div className="mt-4 border-l-2 border-blue-300 pl-6 space-y-4">
                         {subdept.members.map((member, i) => (
