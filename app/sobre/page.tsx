@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react"
 import { subdepartments, leadership } from "@/lib/teamData"
 import { strategicGoals } from "@/lib/strategicGoals"
 import Image from "next/image"
+import { ChevronDown } from "lucide-react"
 
 export default function Sobre() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -96,44 +97,36 @@ export default function Sobre() {
           {!showLeadership && (
             <div className="space-y-8">
               {subdepartments.map((subdept, idx) => (
-                <div key={idx} className="flex">
-                  <div className="relative mr-4">
-                    <div className="w-4 h-4 bg-blue-900 rounded-full"></div>
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-px h-full bg-blue-300"></div>
-                  </div>
-                  <div className="flex-1">
+                <div key={idx} className="border-l-4 border-blue-600 pl-4">
                   <button
-                      type="button"
-                      onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                      className="w-full flex items-center justify-between p-4 bg-blue-50 rounded-lg shadow hover:bg-blue-100 transition-colors"
-                      aria-expanded={openIndex === idx}
-                    >
-                      <div>
-                        <h4 className="text-lg font-semibold text-gray-800">{subdept.name}</h4>
-                        <p className="text-xs text-gray-500">{subdept.fullName}</p>
-                      </div>
-                      <div className="text-blue-600 text-xs flex items-center">
-                        <span>{subdept.members.length} membros</span>
-                        <svg className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${openIndex === idx ? "rotate-180" : "rotate-0"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                      </div>
-                    </button>
-                    <div
-                      className={`mt-4 border-l-2 border-blue-300 pl-6 space-y-4 overflow-hidden ease-in-out duration-300 transition-[max-height] transition-opacity ${openIndex === idx ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}
-                    >
-                      {subdept.members.map((member, i) => (
-                        <div key={i} className="flex items-center">
-                          <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center border border-blue-200 overflow-hidden">
-                            <Image src={member.photoUrl} alt={member.name} width={40} height={40} className="object-cover" />
-                          </div>
-                          <div className="ml-3">
-                            <h5 className="text-sm font-semibold text-gray-800">{member.name}</h5>
-                            <p className="text-xs text-gray-500">{member.certification}</p>
-                          </div>
-                        </div>
-                      ))}
+                    type="button"
+                    onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                    className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl shadow-lg hover:from-blue-100 transition-colors"
+                    aria-expanded={openIndex === idx}
+                  >
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-800">{subdept.name}</h4>
+                      <p className="text-xs text-gray-500">{subdept.fullName}</p>
                     </div>
+                    <div className="text-blue-600 text-xs flex items-center">
+                      <span>{subdept.members.length} membros</span>
+                      <ChevronDown className={`w-4 h-4 ml-2 transition-transform duration-300 ${openIndex === idx ? "rotate-180" : "rotate-0"}`} />
+                    </div>
+                  </button>
+                  <div
+                    className={`mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-hidden ease-in-out duration-300 transition-[max-height,opacity] ${openIndex === idx ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}
+                  >
+                    {subdept.members.map((member, i) => (
+                      <div key={i} className="flex items-center">
+                        <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center border border-blue-200 overflow-hidden">
+                          <Image src={member.photoUrl} alt={member.name} width={40} height={40} className="object-cover" />
+                        </div>
+                        <div className="ml-3">
+                          <h5 className="text-sm font-semibold text-gray-800">{member.name}</h5>
+                          <p className="text-xs text-gray-500">{member.certification}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
