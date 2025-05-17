@@ -89,36 +89,38 @@ export default function DadosPage() {
         ))}
       </div>
       {activeCategory && (
-        <div className="space-y-6">
+        <div>
           <h2 className="text-2xl font-semibold mb-4">{activeCategory}</h2>
-          {datasets[activeCategory].map((dataset, index) => (
-            <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center space-x-4">
-                <FileText className="text-blue-900" />
-                <span>{dataset}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                {/* Visualizar Button */}
-                <button 
-                  onClick={() => {
-                    router.push(`/dados/${encodeURIComponent(dataset)}`)
-                  }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
-                >
-                  <Eye size={16} />
-                  <span>Visualizar</span>
-                </button>
-                {/* Download Button */}
-                <button
-                  onClick={() => handleDownload(dataset)}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
-                >
-                  <Download size={16} />
-                  <span>Download</span>
-                </button>
-              </div>
-            </div>
-          ))}
+          <ul role="list" className="space-y-6">
+            {datasets[activeCategory].map((dataset, index) => (
+              <li key={index} role="listitem" className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <FileText className="text-blue-900" />
+                  <span>{dataset}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  {/* Visualizar Button */}
+                  <button
+                    onClick={() => {
+                      router.push(`/dados/${encodeURIComponent(dataset)}`)
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
+                  >
+                    <Eye size={16} />
+                    <span>Visualizar</span>
+                  </button>
+                  {/* Download Button */}
+                  <button
+                    onClick={() => handleDownload(dataset)}
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800 transition-colors"
+                  >
+                    <Download size={16} />
+                    <span>Download</span>
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

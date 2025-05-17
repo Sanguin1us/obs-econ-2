@@ -212,13 +212,14 @@ function PublicacoesInner() {
             </div>
           </div>
         )}
-        <div className="grid gap-3">
+        <ul role="list" className="grid gap-3">
           {filteredPublications.map(pub => (
-            <div
+            <li
               key={pub.id}
+              role="listitem"
               className="group flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50/50 transition-all duration-200"
             >
-              <div 
+              <div
                 className="flex items-center gap-4 flex-1 cursor-pointer"
                 onClick={() => router.push(`?slug=${encodeURIComponent(pub.slug)}`)}
               >
@@ -255,14 +256,14 @@ function PublicacoesInner() {
                   <span>Download</span>
                 </button>
               )}
-            </div>
+            </li>
           ))}
           {filteredPublications.length === 0 && (
             <div className="text-center py-12 text-gray-500">
               Nenhuma publicação encontrada para os filtros selecionados
             </div>
           )}
-        </div>
+        </ul>
       </div>
     </div>
   )
