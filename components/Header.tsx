@@ -17,7 +17,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="bg-blue-900 text-white w-full">
+    <header className="bg-blue-900 text-white w-full fixed top-0 left-0 z-50">
       <div className="flex justify-between items-center w-full py-6 px-2 relative">
         {/* Left Logo (relative positioned) */}
         <div className="flex-shrink-0 max-w-[800px] w-[30%] flex items-center">
