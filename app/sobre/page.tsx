@@ -69,11 +69,20 @@ export default function Sobre() {
             </button>
           </div>
           {showLeadership && (
-            <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {leadership.map((leader, index) => (
-                <div key={index} className="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row items-center gap-6">
+                <div
+                  key={index}
+                  className="bg-white rounded-lg border border-gray-200 shadow-md p-6 flex flex-col items-center text-center md:text-left md:flex-row md:items-start gap-6"
+                >
                   <div className="w-32 h-32 flex-shrink-0">
-                    <Image src={leader.photoUrl} alt={leader.name} width={128} height={128} className="rounded-full border-2 border-blue-900 object-cover w-full h-full" />
+                    <Image
+                      src={leader.photoUrl}
+                      alt={leader.name}
+                      width={128}
+                      height={128}
+                      className="rounded-full border-2 border-blue-900 object-cover w-full h-full"
+                    />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-gray-800">{leader.name}</h3>
