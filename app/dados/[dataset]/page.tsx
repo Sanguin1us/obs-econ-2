@@ -3,6 +3,7 @@ import { useParams } from "next/navigation"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { useMemo, useState, useEffect } from "react"
 import { datasetData } from "@/lib/datasetData"
+import { datasetTimeSeriesMap } from "@/lib/datasetTimeSeriesMap"
 import { Download } from "lucide-react"
 
 export default function VisualizarDadosPage() {
@@ -10,22 +11,6 @@ export default function VisualizarDadosPage() {
   const datasetParam = Array.isArray(params.dataset) ? params.dataset[0] : params.dataset || ""
   const datasetName = decodeURIComponent(datasetParam)
 
-  // Example series map: certain datasets have multiple time series, others just one
-  const datasetTimeSeriesMap: Record<string, string[]> = {
-    "Contas Regionais - Município do Rio de Janeiro": [
-      "Valores Correntes",
-      "Valores Deflacionados",
-      "Variação",
-      "Participação"
-    ],
-    "Contas Regionais - Estado do Rio de Janeiro": [
-      "Valores Correntes",
-      "Valores Deflacionados",
-      "Variação",
-      "Participação"
-    ],
-    // For all others, just single series named "Principal"
-  }
 
   // The array of series for this dataset, or ["Principal"] if none is found
   const availableSeries = datasetTimeSeriesMap[datasetName] || ["Principal"]

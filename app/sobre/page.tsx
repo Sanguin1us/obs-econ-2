@@ -1,6 +1,7 @@
 "use client"
 import { useState, useRef, useEffect } from "react"
 import { subdepartments, leadership } from "@/lib/teamData"
+import { strategicGoals } from "@/lib/strategicGoals"
 import Image from "next/image"
 
 export default function Sobre() {
@@ -19,12 +20,6 @@ export default function Sobre() {
     }
   }, [])
 
-  const strategicGoals = [
-    { title: "Redução do Desemprego", target: "45%", description: "Reduzir a taxa de desemprego anual do Rio de 14,7% para 8%" },
-    { title: "Ambiente de Negócios", target: "#1", description: "Tornar o Rio a melhor cidade da América Latina para negócios" },
-    { title: "Crescimento do PIB", target: "3%", description: "Alcançar crescimento médio anual de 3% do PIB municipal" },
-    { title: "Novas Startups", target: "400", description: "Fomentar a criação de 400 novas startups na cidade" }
-  ]
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
