@@ -118,11 +118,10 @@ function generateHistoricalData(
     const change = (Math.random() - 0.5) * 2 * volatility
     currentValue = currentValue * (1 + change)
 
-    const isJanuary = date.getMonth() === 0
-    const isFirstOrLast = i === months || i === 0
-    const dateLabel = isJanuary || isFirstOrLast
-      ? date.toLocaleString("pt-BR", { month: "short", year: "2-digit" })
-      : date.toLocaleString("pt-BR", { month: "short" })
+    const dateLabel = date.toLocaleString("pt-BR", {
+      month: "short",
+      year: "2-digit"
+    })
 
     data.push({
       date: dateLabel,
@@ -194,8 +193,11 @@ const StatGraph = ({
             axisLine={{ stroke: "#E5E7EB" }}
             tickLine={false}
             dy={10}
-            interval="preserveStartEnd"
-            minTickGap={40}
+            interval={0}
+            minTickGap={0}
+            angle={-45}
+            textAnchor="end"
+            height={60}
           />
           <YAxis
             tick={{ fill: "#6B7280", fontSize: 12 }}
