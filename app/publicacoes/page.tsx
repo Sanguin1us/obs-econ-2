@@ -137,21 +137,25 @@ function PublicacoesInner() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-semibold text-gray-900">Publicações</h1>
           <div className="relative">
-            <div 
+            <label htmlFor="publication-search" className="sr-only">
+              Buscar publicações
+            </label>
+            <div
               className={`
-                flex items-center bg-gray-100 rounded-full 
+                flex items-center bg-gray-100 rounded-full
                 transition-all duration-200 ease-in-out
                 ${searchOpen ? 'w-[280px]' : 'w-10'}
               `}
             >
               <input
+                id="publication-search"
                 type="text"
                 placeholder="Buscar publicações..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={`
                   w-full bg-transparent pl-4 pr-10 h-10
-                  focus:outline-none text-sm
+                  focus:ring-2 focus:ring-blue-500 text-sm
                   transition-opacity duration-200
                   ${searchOpen ? 'opacity-100' : 'opacity-0'}
                 `}
