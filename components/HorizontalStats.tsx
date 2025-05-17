@@ -268,10 +268,12 @@ const StatCard = ({
     : `${prefix}${Math.abs(Math.round(change)).toLocaleString()}${suffix}`
 
   return (
-    <div
-      className={`flex-1 px-6 py-4 border-r last:border-r-0 border-gray-200 cursor-pointer transition-all duration-300 
+    <button
+      type="button"
+      className={`flex-1 px-6 py-4 border-r last:border-r-0 border-gray-200 transition-all duration-300
         ${isSelected ? "bg-blue-50" : "hover:bg-gray-50"}`}
       onClick={onClick}
+      aria-pressed={isSelected}
     >
       <div className="flex flex-col items-center text-center">
         <div className="mb-3 p-3 bg-blue-50 rounded-lg">
@@ -296,7 +298,7 @@ const StatCard = ({
           </span>
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 

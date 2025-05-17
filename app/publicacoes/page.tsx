@@ -156,7 +156,8 @@ function PublicacoesInner() {
                   ${searchOpen ? 'opacity-100' : 'opacity-0'}
                 `}
               />
-              <div 
+              <button
+                type="button"
                 onClick={() => {
                   if (searchOpen && searchQuery) {
                     setSearchQuery("")
@@ -164,14 +165,21 @@ function PublicacoesInner() {
                     setSearchOpen(!searchOpen)
                   }
                 }}
-                className="absolute right-0 w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-gray-200 rounded-full transition-colors"
+                className="absolute right-0 w-10 h-10 flex items-center justify-center hover:bg-gray-200 rounded-full transition-colors"
+                aria-label={
+                  searchOpen && searchQuery
+                    ? "Limpar busca"
+                    : searchOpen
+                    ? "Fechar busca"
+                    : "Abrir busca"
+                }
               >
                 {searchOpen && searchQuery ? (
                   <X className="w-4 h-4 text-gray-600" />
                 ) : (
                   <Search className="w-4 h-4 text-gray-600" />
                 )}
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -218,8 +226,9 @@ function PublicacoesInner() {
               key={pub.id}
               className="group flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50/50 transition-all duration-200"
             >
-              <div 
-                className="flex items-center gap-4 flex-1 cursor-pointer"
+              <button
+                type="button"
+                className="flex items-center gap-4 flex-1 text-left"
                 onClick={() => router.push(`?slug=${encodeURIComponent(pub.slug)}`)}
               >
                 <div className="p-2 rounded-full bg-gray-100">
@@ -233,7 +242,7 @@ function PublicacoesInner() {
                     {pub.year}
                   </p>
                 </div>
-              </div>
+              </button>
               {pub.downloadUrl ? (
                 <a
                   href={pub.downloadUrl}
