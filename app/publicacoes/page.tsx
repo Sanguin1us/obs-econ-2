@@ -184,7 +184,7 @@ function PublicacoesInner() {
               onClick={() => handleCategoryClick(c)}
               className={`px-4 py-2 text-sm rounded-full transition-colors ${
                 selectedCategory === c
-                  ? "bg-gray-900 text-white"
+                  ? "bg-blue-900 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -202,7 +202,7 @@ function PublicacoesInner() {
                   onClick={() => setSelectedYear(selectedYear === yr ? null : yr)}
                   className={`px-3 py-1 text-sm rounded-full transition-colors ${
                     selectedYear === yr
-                      ? "bg-gray-900 text-white"
+                      ? "bg-blue-900 text-white"
                       : "text-gray-600 hover:bg-gray-100"
                   }`}
                 >
