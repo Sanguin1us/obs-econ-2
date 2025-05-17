@@ -3,6 +3,7 @@ import { useState, useEffect, Suspense } from "react"
 import { FileText, Download, Calendar, User, Search, X } from "lucide-react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { publications, publicationCategories } from "@/lib/publicationsData"
+import { publicationYears } from "@/lib/publicationYears"
 
 function PublicacoesInner() {
   const normalizeText = (text: string) => {
@@ -21,7 +22,6 @@ function PublicacoesInner() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
-  const years = [2024, 2023, 2022, 2021, 2020]
 
   useEffect(() => {
     if (categoria && categories.includes(categoria)) {
@@ -196,7 +196,7 @@ function PublicacoesInner() {
           <div className="flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-2">
               <div className="h-8 w-px bg-gray-200" />
-              {years.map(yr => (
+              {publicationYears.map(yr => (
                 <button
                   key={yr}
                   onClick={() => setSelectedYear(selectedYear === yr ? null : yr)}
