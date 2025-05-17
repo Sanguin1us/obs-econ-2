@@ -119,21 +119,21 @@ export default function Sobre() {
                         </svg>
                       </div>
                     </button>
-                    {openIndex === idx && (
-                      <div className="mt-4 border-l-2 border-blue-300 pl-6 space-y-4">
-                        {subdept.members.map((member, i) => (
-                          <div key={i} className="flex items-center">
-                            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center border border-blue-200 overflow-hidden">
-                              <Image src={member.photoUrl} alt={member.name} width={40} height={40} className="object-cover" />
-                            </div>
-                            <div className="ml-3">
-                              <h5 className="text-sm font-semibold text-gray-800">{member.name}</h5>
-                              <p className="text-xs text-gray-500">{member.certification}</p>
-                            </div>
+                    <div
+                      className={`mt-4 border-l-2 border-blue-300 pl-6 space-y-4 overflow-hidden ease-in-out duration-300 transition-[max-height] transition-opacity ${openIndex === idx ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}
+                    >
+                      {subdept.members.map((member, i) => (
+                        <div key={i} className="flex items-center">
+                          <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center border border-blue-200 overflow-hidden">
+                            <Image src={member.photoUrl} alt={member.name} width={40} height={40} className="object-cover" />
                           </div>
-                        ))}
-                      </div>
-                    )}
+                          <div className="ml-3">
+                            <h5 className="text-sm font-semibold text-gray-800">{member.name}</h5>
+                            <p className="text-xs text-gray-500">{member.certification}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
