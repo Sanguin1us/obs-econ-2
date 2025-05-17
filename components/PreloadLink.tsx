@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 
 interface PreloadLinkProps {
   href: string
@@ -13,15 +13,8 @@ interface PreloadLinkProps {
 
 export default function PreloadLink({ href, children, className, onClick }: PreloadLinkProps) {
   const router = useRouter()
-  const [isHovering, setIsHovering] = useState(false)
-
   const handleMouseEnter = () => {
-    setIsHovering(true)
     router.prefetch(href)
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovering(false)
   }
 
   return (
@@ -29,10 +22,10 @@ export default function PreloadLink({ href, children, className, onClick }: Prel
       href={href}
       className={className}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       onClick={onClick}
     >
       {children}
     </Link>
   )
 }
+
