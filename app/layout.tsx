@@ -11,7 +11,7 @@ export const metadata = {
   description: 'Institutional platform for sharing economic data and publications',
 }
 
-// Add prefetch configuration
+// Configure Next.js caching and runtime options
 export const dynamicParams = true
 export const revalidate = false
 export const fetchCache = 'auto'
