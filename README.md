@@ -63,6 +63,21 @@ incluídas configurações adicionais e serão documentadas aqui.
 Ainda não possuímos suíte de testes ou CI configurados, mas eles estão no roadmap do projeto.
 Sinta-se livre para sugerir melhorias!
 
+## CMS
+
+O site utiliza **Decap CMS** para que administradores possam adicionar novas
+publicações sem editar o código fonte. A interface fica disponível em
+`/admin` e requer autenticação via GitHub. Ao enviar uma nova publicação,
+o PDF é salvo em `public/uploads/` e os metadados em arquivos Markdown dentro
+de `content/publicacoes/`.
+
+Para utilizar o CMS localmente:
+
+```bash
+pnpm dev
+# acesse http://localhost:3000/admin
+```
+
 ## Roadmap
 
 - Popular as páginas com dados reais e atualização automática.

@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: owner/obs-econ-2
+  branch: main
+media_folder: "public/uploads"
+public_folder: "/uploads"
+collections:
+  - name: "publicacoes"
+    label: "Publicações"
+    folder: "content/publicacoes"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Category", name: "category", widget: "select", options: ["BOLETIM ECONÔMICO","NOTAS TÉCNICAS","ESTUDOS ESPECIAIS","APRESENTAÇÕES","CARNAVAL DE DADOS","RÉVEILLON EM DADOS","WEB SUMMIT RIO","ECONOMIA VERDE","CRYPTO RIO","DESENVOLVIMENTO ECONÔMICO DO RIO","AEROPORTOS","TURISMO","ECONOMIA DA MODA","DEMAIS PUBLICAÇÕES"]}
+      - {label: "Year", name: "year", widget: "number"}
+      - {label: "Autor", name: "autor", widget: "string", required: false}
+      - {label: "Resumo", name: "resumo", widget: "text", required: false}
+      - {label: "Conteudo", name: "conteudo", widget: "markdown", required: false}
+      - {label: "PDF", name: "file", widget: "file", allow_multiple: false}
