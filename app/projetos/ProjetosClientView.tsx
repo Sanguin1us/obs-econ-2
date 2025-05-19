@@ -21,7 +21,7 @@ interface ProjetosClientViewProps {
 // This component handles the client-side rendering part
 export default function ProjetosClientView({ projects }: ProjetosClientViewProps) {
   return (
-    <div className="min-h-screen bg-white text-gray-800">
+    <div className="min-h-screen bg-white text-gray-900"> {/* Aligned with global body text color */}
       {/* Pass the updated OPTIONS to the carousel */}
       <ProjectCarousel projects={projects} options={OPTIONS} />
     </div>

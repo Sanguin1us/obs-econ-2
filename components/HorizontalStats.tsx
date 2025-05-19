@@ -273,7 +273,7 @@ const StatCard = ({
     <button
       type="button"
       className={`flex-1 px-6 py-4 border-r last:border-r-0 border-gray-200 transition-all duration-300
-        ${isSelected ? "bg-blue-50" : "hover:bg-gray-50"}`}
+        ${isSelected ? "bg-blue-50 shadow-md" : "hover:bg-gray-50 hover:shadow-sm"}`}
       onClick={onClick}
       aria-pressed={isSelected}
     >

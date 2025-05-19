@@ -42,13 +42,13 @@ function PublicacoesInner() {
     const pub = publications.find(item => item.slug === slug)
     if (!pub) {
       return (
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-6 md:px-8 py-20 md:py-24">
           <h1 className="text-4xl font-bold mb-8">Publicação não encontrada</h1>
         </div>
       )
     }
     return (
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-6 md:px-8 py-20 md:py-24">
         <h1 className="text-4xl font-bold mb-8">{pub.title}</h1>
         <div className="flex flex-wrap gap-6 mb-8 text-gray-600">
           <div className="flex items-center">
@@ -64,13 +64,13 @@ function PublicacoesInner() {
         </div>
         {pub.resumo && (
           <div className="bg-blue-50 p-6 rounded-lg mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Resumo</h2>
+            <h2 className="text-2xl font-bold mb-4">Resumo</h2>
             <p>{pub.resumo}</p>
           </div>
         )}
         {pub.conteudo && (
           <div className="prose max-w-none">
-            <h2 className="text-2xl font-semibold mb-4">Relatório Completo</h2>
+            <h2 className="text-2xl font-bold mb-4">Relatório Completo</h2>
             <p>{pub.conteudo}</p>
           </div>
         )}
@@ -132,10 +132,10 @@ function PublicacoesInner() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-24">
       <div className="border-b pb-8 mb-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold text-gray-900">Publicações</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Publicações</h1>
           <div className="relative">
             <label htmlFor="publication-search" className="sr-only">
               Buscar publicações
@@ -239,7 +239,7 @@ function PublicacoesInner() {
                   <FileText className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
+                  <h3 className="font-semibold text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
                     {pub.title}
                   </h3>
                   <p className="text-sm text-gray-500">

@@ -58,7 +58,7 @@ export default function VisualizarDadosPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-6 md:px-8 py-20 md:py-24">
       {/* Header with Title, Series Dropdown (if multiple) and Download Button */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 space-y-4 md:space-y-0">
         <h1 className="text-3xl font-bold">{datasetName}</h1>
@@ -67,7 +67,7 @@ export default function VisualizarDadosPage() {
             <select
               value={selectedSeries}
               onChange={(e) => setSelectedSeries(e.target.value)}
-              className="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700"
+              className="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               aria-label="Selecione a série de dados"
             >
               {availableSeries.map((seriesName) => (

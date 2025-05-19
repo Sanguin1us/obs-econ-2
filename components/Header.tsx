@@ -18,17 +18,17 @@ export default function Header() {
 
   return (
     <header className="bg-blue-900 text-white w-full fixed top-0 left-0 z-50">
-      <div className="flex justify-between items-center w-full py-6 px-2 relative">
-        {/* Left Logo (relative positioned) */}
-        <div className="flex-shrink-0 max-w-[800px] w-[30%] flex items-center">
+      <div className="container mx-auto flex justify-between items-center w-full py-4 px-6 relative">
+        {/* Left Logo */}
+        <div className="flex items-center">
           <PreloadLink href="/">
             <Image
               src="/OBSERVATORIO-logo.webp"
               alt="Observatório Econômico"
-              width={640}
-              height={104}
+              width={250} // Adjusted for new header height, maintain aspect ratio
+              height={40}  // Adjusted based on py-4 (around 16px padding + 40px logo height + 16px padding = 72px total header height)
               quality={100}
-              className="object-contain w-full h-auto"
+              className="object-contain h-10 w-auto" // h-10 is 40px
               priority
             />
           </PreloadLink>
@@ -36,12 +36,12 @@ export default function Header() {
 
         {/* Centered nav on desktop (absolute positioned) */}
         <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-          <nav className="flex items-center justify-center space-x-4">
+          <nav className="flex items-center justify-center space-x-6"> {/* Increased space-x for nav items */}
             {navItems.map((item) => (
               <div key={item.name}>
                 <PreloadLink
                   href={item.href}
-                  className="hover:text-blue-200 transition-colors text-xl font-medium px-1 py-1"
+                  className="hover:text-blue-200 transition-colors text-lg font-medium px-2 py-1" /* Adjusted text size and padding */
                 >
                   {item.name}
                 </PreloadLink>
@@ -50,22 +50,22 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* Right Logo (relative positioned) */}
-        <div className="hidden md:block flex-shrink-0 max-w-[350px] w-1/3 flex items-center mr-4">
+        {/* Right Logo */}
+        <div className="hidden md:flex items-center">
           <Image
             src="/SMDUE-logo.webp"
             alt="SMDUE"
-            width={300}
-            height={40}
+            width={240} // Adjusted for new header height, maintain aspect ratio (300/40 * 32 = 240)
+            height={32}  // Adjusted h-8 w-auto
             quality={100}
-            className="object-contain w-full h-auto"
+            className="object-contain h-8 w-auto" // h-8 is 32px
             priority
           />
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden ml-auto z-20"
+        <button
+          className="md:hidden z-20 p-2 hover:text-blue-200 transition-colors" /* Removed ml-auto, flex layout handles it */
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Open menu"
         >
@@ -90,13 +90,13 @@ export default function Header() {
             ))}
 
             {/* Right Logo shown at the bottom on mobile (optional) */}
-            <div className="pt-4 border-t border-blue-800 flex justify-center">
+            <div className="pt-4 mt-2 border-t border-blue-800 flex justify-center"> {/* Added mt-2 for spacing */}
               <Image
                 src="/SMDUE-logo.webp"
                 alt="SMDUE"
-                width={100}
-                height={30}
-                className="object-contain"
+                width={120} // Slightly increased size for mobile menu
+                height={24}
+                className="object-contain h-6 w-auto" // h-6 is 24px
                 priority
               />
             </div>

@@ -24,7 +24,7 @@ export default function Sobre() {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
-      <section className="container mx-auto px-4 py-16 flex flex-col gap-12 md:flex-row">
+      <section className="container mx-auto px-6 md:px-8 py-20 md:py-24 flex flex-col gap-12 md:flex-row">
         <div className="flex-1 space-y-6 animate-fade-in-up">
           <h2 className="text-3xl font-bold text-blue-900">Nossa Missão</h2>
           <p className="text-lg leading-relaxed text-gray-600">
@@ -44,7 +44,7 @@ export default function Sobre() {
               return (
                 <div key={i} className="bg-white rounded-lg p-6 shadow transition-transform duration-300 hover:scale-105">
                   <div className="text-4xl font-extrabold text-blue-700 mb-2">{displayValue}</div>
-                  <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
+                  <h3 className="text-xl font-bold mb-1">{item.title}</h3>
                   <p className="text-sm text-gray-500">{item.description}</p>
                 </div>
               )
@@ -52,8 +52,8 @@ export default function Sobre() {
           </div>
         </div>
       </section>
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="bg-white">
+        <div className="container mx-auto px-6 md:px-8 py-20 md:py-24">
           <h2 className="text-3xl font-bold text-blue-900 mb-12 text-center">Estrutura Administrativa</h2>
           <div className="flex justify-center mb-10">
             <button
@@ -140,7 +140,7 @@ export default function Sobre() {
                               <Image src={member.photoUrl} alt={member.name} width={48} height={48} className="object-cover w-full h-full" />
                             </div>
                             <div className="ml-4">
-                              <h5 className="text-md font-semibold text-gray-800">{member.name}</h5>
+                              <h5 className="text-base font-bold text-gray-800">{member.name}</h5>
                               <p className="text-xs text-blue-600">{member.certification}</p>
                             </div>
                           </div>

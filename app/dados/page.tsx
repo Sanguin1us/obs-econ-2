@@ -69,7 +69,7 @@ export default function DadosPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-6 md:px-8 py-20 md:py-24">
       <h1 className="text-4xl font-bold mb-8">Dados Econômicos</h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {Object.keys(datasets).map((category) => (
@@ -90,7 +90,7 @@ export default function DadosPage() {
       </div>
       {activeCategory && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold mb-4">{activeCategory}</h2>
+          <h2 className="text-2xl font-bold mb-4">{activeCategory}</h2>
           {datasets[activeCategory].map((dataset, index) => (
             <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center space-x-4">

@@ -147,7 +147,7 @@ export default function ProjectCarousel({ projects, options }: PropType) {
   return (
     <div className="relative w-full py-8">
       {/* Header/Text */}
-      <div className="container mx-auto px-4 pt-12 pb-8 text-center">
+      <div className="container mx-auto px-6 md:px-8 pt-12 pb-8 text-center"> {/* Adjusted padding */}
         <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4 animate-fade-in-up">
           Projetos da Secretaria
         </h1>

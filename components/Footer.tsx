@@ -5,31 +5,33 @@ import { FaLinkedin, FaInstagram, FaXTwitter, FaFacebook } from 'react-icons/fa6
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-b from-blue-900 to-blue-950 text-white py-12">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 md:px-8"> {/* Adjusted padding */}
         <div className="text-center mb-8">
           <h2 className="text-xl font-semibold mb-2">Entre em Contato</h2>
           <p className="text-gray-200">Em caso de dúvidas, sugestões ou reclamações entre em contato conosco.</p>
         </div>
         
         <div className="max-w-2xl mx-auto space-y-6">
-          <div className="flex items-center justify-center space-x-2 p-3 hover:bg-blue-800/30 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">
+          {/* Email Section */}
+          <div className="flex items-center space-x-3 p-4 hover:bg-blue-800/30 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">
             <MdEmail className="text-2xl flex-shrink-0 text-blue-200" />
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=observatorioeconomico@rio.rj.gov.br" 
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=observatorioeconomico@rio.rj.gov.br"
                target="_blank"
                rel="noopener noreferrer"
-               className="hover:text-blue-200 transition-colors font-medium">
+               className="hover:text-blue-200 transition-colors font-medium text-left"> {/* Added text-left */}
               observatorioeconomico@rio.rj.gov.br
             </a>
           </div>
-          
-          <div className="flex items-start justify-center space-x-2 p-4 hover:bg-blue-800/30 rounded-lg transition-all duration-300">
-            <MdLocationOn className="text-2xl flex-shrink-0 mt-1 text-blue-200" />
+
+          {/* Address Section */}
+          <div className="flex items-center space-x-3 p-4 hover:bg-blue-800/30 rounded-lg transition-all duration-300 transform hover:scale-[1.02]"> {/* Changed to items-center, removed mt-1 from icon */}
+            <MdLocationOn className="text-2xl flex-shrink-0 text-blue-200" />
             <a href="https://maps.app.goo.gl/sFHrJ4RwtztXPQdq5"
                target="_blank"
                rel="noopener noreferrer"
-               className="text-center hover:text-blue-200 transition-colors">
-              <p className="font-semibold mb-2">Centro Administrativo São Sebastião</p>
-              <div className="text-gray-200 space-y-1">
+               className="hover:text-blue-200 transition-colors text-left"> {/* Removed text-center, added text-left */}
+              <p className="font-semibold mb-1">Centro Administrativo São Sebastião</p> {/* Reduced mb */}
+              <div className="text-gray-200 space-y-0.5"> {/* Reduced space-y */}
                 <p>R. Afonso Cavalcanti, 455, 11° andar</p>
                 <p>Cidade Nova, Rio de Janeiro - RJ</p>
                 <p>20211-110</p>
